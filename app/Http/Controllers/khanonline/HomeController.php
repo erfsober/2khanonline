@@ -4,11 +4,15 @@ namespace App\Http\Controllers\khanonline;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $categories = ProductCategory::orderBy('id')->limit(4)->get();
         $products = Product::orderBy('id', 'desc')->paginate(6);
-        return view('2khanonline.home', compact('products'));
+
+        return view('2khanonline.home', compact('categories', 'products'));
     }
 }
