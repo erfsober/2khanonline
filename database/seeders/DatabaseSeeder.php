@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         $this->call(AboutUsSeeder::class);
         $this->call(ContactUsSeeder::class);
-
+        $this->call(ProductCategorySeeder::class);
+        $this->call(ProductBrandSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(CartSeeder::class);
     }
 }

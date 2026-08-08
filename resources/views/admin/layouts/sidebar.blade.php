@@ -71,5 +71,34 @@
                 <div data-i18n="Contact-Us">تماس با ما</div>
             </a>
         </li>
+
+        {{-- Products Section --}}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">مدیریت محصولات</span>
+        </li>
+
+        <!-- Product Categories -->
+        <li class="menu-item {{ request()->routeIs('admin.product-categories.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.product-categories.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
+                <div data-i18n="Product-Categories">دسته‌بندی محصولات</div>
+            </a>
+        </li>
+
+        <!-- Product Brands -->
+        <li class="menu-item {{ request()->routeIs('admin.product-brands.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.product-brands.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+                <div data-i18n="Product-Brands">برندها</div>
+            </a>
+        </li>
+
+        <!-- Products -->
+        <li class="menu-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.products.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-package"></i>
+                <div data-i18n="Products">محصولات</div>
+            </a>
+        </li>
     </ul>
 </aside>

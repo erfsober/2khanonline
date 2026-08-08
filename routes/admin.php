@@ -4,6 +4,9 @@ use App\Http\Controllers\admin\AboutUsController;
 use App\Http\Controllers\admin\ContactUsController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LoginController;
+use App\Http\Controllers\admin\ProductBrandController;
+use App\Http\Controllers\admin\ProductCategoryController;
+use App\Http\Controllers\admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -27,5 +30,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [ContactUsController::class, 'edit'])->name('edit');
             Route::put('/', [ContactUsController::class, 'update'])->name('update');
         });
+
+        // Product Categories
+        Route::resource('product-categories', ProductCategoryController::class)->except(['show']);
+
+        // Product Brands
+        Route::resource('product-brands', ProductBrandController::class)->except(['show']);
+
+        // Products
+        Route::resource('products', ProductController::class)->except(['show']);
     });
 });
