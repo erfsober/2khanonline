@@ -27,8 +27,8 @@
                     <h4 class="text-sm font-semibold mb-4">دسترسی</h4>
                     <ul class="space-y-3">
                         <li><a href="#" class="text-sm text-[#737373] hover:text-[#171717] transition-colors">برندها</a></li>
-                        <li><a href="#" class="text-sm text-[#737373] hover:text-[#171717] transition-colors">درباره ما</a></li>
-                        <li><a href="#" class="text-sm text-[#737373] hover:text-[#171717] transition-colors">تماس با ما</a></li>
+                        <li><a href="{{ route('pages.about-us') }}" class="text-sm text-[#737373] hover:text-[#171717] transition-colors">درباره ما</a></li>
+                        <li><a href="{{ route('pages.contact-us') }}" class="text-sm text-[#737373] hover:text-[#171717] transition-colors">تماس با ما</a></li>
                     </ul>
                 </div>
             </div>
