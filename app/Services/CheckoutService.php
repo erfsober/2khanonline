@@ -19,7 +19,7 @@ class CheckoutService
         private readonly CartService $cartService
     ) {}
 
-    public function start(User $user): string
+    public function start(User $user, string $address): string
     {
         $cart = $this->cartService->getCart();
         $cart->loadMissing('items.product');
@@ -32,7 +32,7 @@ class CheckoutService
 
         $this->assertCartIsPurchasable($cart);
 
-        $order = $this->createPendingOrder($user, $cart);
+        $order = $this->createPendingOrder($user, $cart, $address);
 
         try {
             $invoice = (new Invoice)
@@ -131,12 +131,15 @@ class CheckoutService
         }
     }
 
-    private function createPendingOrder(User $user, Cart $cart): Order
+    private function createPendingOrder(User $user, Cart $cart, string $address): Order
     {
-        return DB::transaction(function () use ($user, $cart): Order {
+        return DB::transaction(function () use ($user, $cart, $address): Order {
+            $user->update(['address' => $address]);
+
             $order = Order::query()->create([
                 'user_id' => $user->id,
                 'amount' => $cart->total(),
+                'address' => $address,
                 'status' => Order::STATUS_PENDING,
                 'gateway' => 'zibal',
             ]);

@@ -29,7 +29,8 @@ Route::middleware('auth:web')->group(function () {
         ->name('logout');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.start');
+    Route::get('/checkout', fn () => redirect()->route('cart.index'))->name('checkout.continue');
+    Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout.start');
 });
 
 // Cart routes

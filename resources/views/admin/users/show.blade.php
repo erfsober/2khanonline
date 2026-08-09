@@ -39,6 +39,10 @@
                     <span class="text-muted d-block mb-1">تعداد سفارشات</span>
                     <span class="badge bg-label-primary">{{ $user->orders->count() }}</span>
                 </div>
+                <div class="col-md-8 mb-3">
+                    <span class="text-muted d-block mb-1">آدرس</span>
+                    <strong>{{ $user->address ?? '—' }}</strong>
+                </div>
             </div>
         </div>
     </div>

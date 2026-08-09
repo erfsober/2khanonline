@@ -44,6 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Orders
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/shipping-status', [OrderController::class, 'updateShippingStatus'])->name('orders.update-shipping-status');
 
         // Users
