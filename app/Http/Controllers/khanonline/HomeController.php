@@ -10,7 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = ProductCategory::orderBy('id')->limit(4)->get();
+        $categories = ProductCategory::with(['products' => function ($query) {
+            $query->orderByDesc('id');
+        }])->orderBy('id')->limit(4)->get();
         $products = Product::orderBy('id', 'desc')->paginate(6);
 
         return view('2khanonline.home', compact('categories', 'products'));

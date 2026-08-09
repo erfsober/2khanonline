@@ -40,5 +40,9 @@ Route::prefix('cart')->group(function () {
 
 Route::get('/about-us', [PageController::class, 'aboutUs'])->name('pages.about-us');
 Route::get('/contact-us', [PageController::class, 'contactUs'])->name('pages.contact-us');
+
+Route::get('/categories/{category:slug}', [ProductController::class, 'category'])
+    ->name('categories.show');
+
 // product routes
 Route::get('/{slug}', [ProductController::class, 'show'])->name('products.show');

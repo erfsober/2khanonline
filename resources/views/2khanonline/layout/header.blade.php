@@ -3,7 +3,7 @@
 
         {{-- Mobile Hamburger --}}
         <div class="lg:hidden">
-            <button class="p-2 -mr-2" aria-label="منو">
+            <button type="button" class="p-2 -mr-2" aria-label="منو" aria-expanded="false" aria-controls="mobile-menu" data-mobile-menu-toggle>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
@@ -19,42 +19,38 @@
         {{-- Center Navigation --}}
         <nav class="hidden lg:flex items-center gap-8">
             <a href="/" class="text-sm font-medium text-black border-b-2 border-[#B88A2A] pb-1">خانه</a>
-            <a href="#" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">فروشگاه</a>
-            <a href="#" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">برندها</a>
-            <a href="#" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">سیگار</a>
-            <a href="#" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">سیگار برگ</a>
-            <a href="#" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">ویپ</a>
-            <a href="{{ route('pages.about-us') }}" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">درباره ما</a>
-            <a href="{{ route('pages.contact-us') }}" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent">تماس با ما</a>
+            @foreach ($navigationCategories->take(4)->values() as $category)
+                <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap">
+                    {{ $category->name }}
+                </a>
+            @endforeach
         </nav>
 
         {{-- Icons (left side in RTL) --}}
         <div class="flex items-center gap-4">
-            {{-- Search --}}
-            <button class="p-2 text-[#737373] hover:text-[#171717] transition-colors" aria-label="جستجو" data-search-open>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-            </button>
             {{-- User --}}
-            <div class="relative hidden sm:block" data-user-dropdown>
-                <button
-                    type="button"
-                    class="p-2 text-[#737373] hover:text-[#171717] transition-colors"
-                    aria-label="حساب کاربری"
-                    aria-expanded="false"
-                    data-user-dropdown-button
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                </button>
+            @guest
+                <a href="{{ route('auth.show') }}" class="whitespace-nowrap rounded-lg bg-[#171717] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#2a2a2a]">
+                    ورود
+                </a>
+            @else
+                <div class="relative" data-user-dropdown>
+                    <button
+                        type="button"
+                        class="p-2 text-[#737373] hover:text-[#171717] transition-colors"
+                        aria-label="حساب کاربری"
+                        aria-expanded="false"
+                        data-user-dropdown-button
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </button>
 
-                <div
-                    class="absolute left-0 top-full mt-3 hidden w-56 rounded-2xl border border-[#E5E5E5] bg-white p-3 shadow-[0_18px_45px_rgba(23,23,23,0.10)]"
-                    data-user-dropdown-menu
-                >
-                    @auth
+                    <div
+                        class="absolute left-0 top-full mt-3 hidden w-56 rounded-2xl border border-[#E5E5E5] bg-white p-3 shadow-[0_18px_45px_rgba(23,23,23,0.10)]"
+                        data-user-dropdown-menu
+                    >
                         <div class="mb-3 rounded-xl bg-[#FAFAF9] px-4 py-3">
                             <span class="block text-xs text-[#737373] mb-1">شماره موبایل</span>
                             <strong class="block text-sm font-semibold text-[#171717]" dir="ltr">{{ auth()->user()->phone }}</strong>
@@ -66,13 +62,15 @@
                                 خروج
                             </button>
                         </form>
-                    @else
-                        <a href="{{ route('auth.show') }}" class="flex w-full items-center justify-center rounded-xl bg-[#171717] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#2a2a2a] transition-colors">
-                            ورود
-                        </a>
-                    @endauth
+                    </div>
                 </div>
-            </div>
+            @endguest
+            {{-- Search --}}
+            <button class="p-2 text-[#737373] hover:text-[#171717] transition-colors" aria-label="جستجو" data-search-open>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
             {{-- Cart --}}
             <a href="{{ route('cart.index') }}" class="p-2 text-[#737373] hover:text-[#171717] transition-colors relative" aria-label="سبد خرید">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -83,6 +81,19 @@
         </div>
     </div>
 </header>
+
+{{-- Mobile Navigation --}}
+<div id="mobile-menu" class="fixed inset-0 z-40 hidden lg:hidden" data-mobile-menu>
+    <button type="button" class="absolute inset-0 bg-black/40" aria-label="بستن منو" data-mobile-menu-close></button>
+    <nav class="relative mt-[72px] border-b border-[#E5E5E5] bg-white px-6 py-5 shadow-lg">
+        <a href="/" class="block border-b border-[#F5F5F5] py-3 text-sm font-medium text-black" data-mobile-menu-link>خانه</a>
+        @foreach ($navigationCategories->take(4)->values() as $category)
+            <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="block border-b border-[#F5F5F5] py-3 text-sm font-medium text-black last:border-0" data-mobile-menu-link>
+                {{ $category->name }}
+            </a>
+        @endforeach
+    </nav>
+</div>
 
 {{-- Search Modal --}}
 <div class="fixed inset-0 z-[60] hidden" data-search-modal>
@@ -167,6 +178,47 @@
 
         window.KhanCart.refresh();
 
+        // ===== Mobile Navigation =====
+        var mobileMenu = document.querySelector('[data-mobile-menu]');
+        var mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
+        var mobileMenuClose = document.querySelector('[data-mobile-menu-close]');
+
+        if (mobileMenu && mobileMenuToggle) {
+            function closeMobileMenu() {
+                mobileMenu.classList.add('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            function openMobileMenu() {
+                mobileMenu.classList.remove('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                document.body.classList.add('overflow-hidden');
+            }
+
+            mobileMenuToggle.addEventListener('click', function () {
+                if (mobileMenu.classList.contains('hidden')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
+                }
+            });
+
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', closeMobileMenu);
+            }
+
+            mobileMenu.querySelectorAll('[data-mobile-menu-link]').forEach(function (link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        }
+
         // ===== User Dropdown =====
         var dropdown = document.querySelector('[data-user-dropdown]');
 
@@ -207,6 +259,8 @@
         var searchOpenBtn = document.querySelector('[data-search-open]');
         var searchCloseBtn = document.querySelector('[data-search-close]');
         var searchInput = document.querySelector('[data-search-input]');
+        var homeSearchForm = document.querySelector('[data-home-search-form]');
+        var homeSearchInput = document.querySelector('[data-home-search-input]');
         var searchDefault = document.querySelector('[data-search-default]');
         var searchLoading = document.querySelector('[data-search-loading]');
         var searchResultsList = document.querySelector('[data-search-results-list]');
@@ -328,6 +382,18 @@
                 searchTimeout = setTimeout(function() {
                     performSearch(query);
                 }, 300);
+            });
+        }
+
+        if (homeSearchForm && homeSearchInput) {
+            homeSearchForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var query = homeSearchInput.value.trim();
+
+                openSearch();
+                searchInput.value = query;
+                performSearch(query);
             });
         }
 

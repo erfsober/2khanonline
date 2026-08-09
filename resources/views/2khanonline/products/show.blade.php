@@ -30,7 +30,7 @@
                             <img
                                 src="{{ $imageUrl }}"
                                 alt="{{ $productName }}"
-                                class="absolute inset-0 w-full h-full object-cover"
+                                class="absolute inset-0 w-full h-full object-contain scale-80"
                             >
                         @else
                             <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-[#A3A3A3] p-8">

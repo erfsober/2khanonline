@@ -4,6 +4,8 @@ namespace App\Http\Controllers\khanonline;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductBrand;
+use App\Models\ProductCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,6 +65,35 @@ class ProductController extends Controller
             'unitPrice' => $unitPrice,
             'stock' => $stock,
         ]);
+    }
+
+    public function category(ProductCategory $category, Request $request): View
+    {
+        $brandId = $request->integer('brand');
+        $sort = $request->string('sort')->toString();
+
+        $productsQuery = $category->products()->with('brand');
+
+        if ($brandId > 0) {
+            $productsQuery->where('product_brand_id', $brandId);
+        }
+
+        match ($sort) {
+            'price_asc' => $productsQuery->orderBy('price')->orderByDesc('id'),
+            'price_desc' => $productsQuery->orderByDesc('price')->orderByDesc('id'),
+            default => $productsQuery->orderByDesc('id'),
+        };
+
+        $products = $productsQuery
+            ->paginate(12);
+        $products->withQueryString();
+
+        $brands = ProductBrand::query()
+            ->whereHas('products', fn ($query) => $query->where('product_category_id', $category->id))
+            ->orderBy('name')
+            ->get();
+
+        return view('2khanonline.products.category', compact('category', 'products', 'brands', 'brandId', 'sort'));
     }
 
     private function productImageUrl(object $product): ?string

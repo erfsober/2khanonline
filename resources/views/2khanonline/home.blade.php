@@ -21,12 +21,22 @@
                         <span class="inline-block text-xs font-medium text-orange-400 bg-[#B88A2A]/10 px-3 py-1 rounded-full mb-5">کیفیت بی‌نظیر</span>
                         <h1 class="text-2xl lg:text-[38px] font-bold leading-tight mb-3 text-[#171717]">بهترین محصولات دخانیات</h1>
                         <p class="text-[#737373] text-sm leading-6 mb-6">مجموعه‌ای از محصولات باکیفیت و معتبر، با طراحی ساده و انتخابی مطمئن.</p>
-                        <a href="#" class="inline-flex items-center gap-2 bg-[#171717] text-white px-7 py-3 rounded-lg text-sm font-medium hover:bg-[#2a2a2a] transition-colors">
-                            مشاهده محصولات
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                            </svg>
-                        </a>
+                        <form class="flex w-full max-w-md items-center overflow-hidden rounded-lg border border-[#E5E5E5] bg-white shadow-sm" data-home-search-form>
+                            <label for="home-search" class="sr-only">جستجوی محصول</label>
+                            <input
+                                id="home-search"
+                                type="search"
+                                placeholder="جستجوی محصول..."
+                                class="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-[#171717] outline-none placeholder:text-[#a3a3a3]"
+                                data-home-search-input
+                                autocomplete="off"
+                            >
+                            <button type="submit" class="m-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#171717] text-white transition-colors hover:bg-[#2a2a2a]" aria-label="جستجو">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -37,7 +47,7 @@
     <section class="max-w-[1260px] mx-auto px-6 lg:px-8 pb-16">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             @foreach ($categories as $category)
-                <a href="#" class="bg-white border border-[#E5E5E5] rounded-2xl p-5 flex items-center gap-4 hover:border-[#d4d4d4] transition-colors group">
+                <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="bg-white border border-[#E5E5E5] rounded-2xl p-5 flex items-center gap-4 hover:border-[#d4d4d4] transition-colors group">
                     <div class="w-12 h-12 rounded-xl bg-[#FAFAF9] flex items-center justify-center text-[#737373] group-hover:text-[#171717] transition-colors overflow-hidden">
                         @if($category->image_url)
                             <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="w-full h-full object-cover">
@@ -61,12 +71,6 @@
         {{-- Section Header --}}
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-xl lg:text-2xl font-bold">محصولات محبوب</h2>
-            <a href="#" class="text-sm text-[#737373] hover:text-[#171717] transition-colors flex items-center gap-1">
-                مشاهده همه
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-            </a>
         </div>
 
         {{-- Product Grid --}}
@@ -79,7 +83,7 @@
                             <img
                                 src="{{ $product->image_url }}"
                                 alt="{{ $product->name }}"
-                                class="w-full h-full object-cover"
+                                class="w-full h-full object-contain scale-80"
                             >
                         @else
                             <div class="w-full h-full flex items-center justify-center text-[#737373]">
@@ -93,14 +97,52 @@
                     <div class="p-3">
                         <h3 class="text-xs font-medium mb-2 truncate">{{ $product->name }}</h3>
                         <p class="text-sm font-bold mb-3">{{ number_format($product->price) }} <span class="text-[10px] font-normal text-[#737373]">تومان</span></p>
-                        <div class="w-full text-xs font-medium py-2 border border-[#E5E5E5] rounded-lg text-center hover:bg-[#171717] hover:text-white hover:border-[#171717] transition-all">
-                            مشاهده محصول
-                        </div>
                     </div>
                 </a>
             @endforeach
         </div>
     </section>
+
+    {{-- ==================== CATEGORY PRODUCTS ==================== --}}
+    @foreach ($categories as $category)
+        @if ($category->products->isNotEmpty())
+            <section class="max-w-[1260px] mx-auto px-6 lg:px-8 pb-16">
+                {{-- Section Header --}}
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-xl lg:text-2xl font-bold">{{ $category->name }}</h2>
+                    <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="text-sm text-[#737373] hover:text-[#171717] transition-colors flex items-center gap-1">
+                        مشاهده همه
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </a>
+                </div>
+
+                {{-- Product Grid --}}
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    @foreach ($category->products->take(6) as $product)
+                        <a href="{{ route('products.show', $product->slug) }}" class="bg-white border border-[#E5E5E5] rounded-[14px] overflow-hidden hover:border-[#d4d4d4] hover:-translate-y-1 transition-all duration-200 group block">
+                            <div class="relative aspect-square bg-[#FAFAF9]">
+                                @if($product->image_url)
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-contain scale-80">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-[#737373]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="p-3">
+                                <h3 class="text-xs font-medium mb-2 truncate">{{ $product->name }}</h3>
+                                <p class="text-sm font-bold mb-3">{{ number_format($product->price) }} <span class="text-[10px] font-normal text-[#737373]">تومان</span></p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+        @endif
+    @endforeach
 
     {{-- ==================== NEWSLETTER ==================== --}}
     <section class="bg-[#FAFAF9]">

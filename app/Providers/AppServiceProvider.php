@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ProductCategory;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('2khanonline.layout.header', function ($view): void {
+            $view->with('navigationCategories', ProductCategory::query()
+                ->orderBy('id')
+                ->get(['slug', 'name']));
+        });
     }
 }
