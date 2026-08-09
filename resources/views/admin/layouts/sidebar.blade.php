@@ -100,5 +100,18 @@
                 <div data-i18n="Products">محصولات</div>
             </a>
         </li>
+
+        {{-- Orders Section --}}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">مدیریت سفارشات</span>
+        </li>
+
+        <!-- Orders -->
+        <li class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.orders.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div data-i18n="Orders">سفارشات</div>
+            </a>
+        </li>
     </ul>
 </aside>

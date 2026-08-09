@@ -59,6 +59,41 @@
                                 </div>
                             </div>
 
+                            @if($order->status === 'paid')
+                                {{-- Shipping Status --}}
+                                <div class="mb-5 p-4 rounded-2xl border border-[#E5E5E5] bg-[#FAFAF9]">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        @if($order->shipping_status === 'sent')
+                                            <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-amber-50 border border-amber-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25-2.25M12 13.875V7.5" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                        <span class="text-xs font-medium text-[#737373]">وضعیت ارسال</span>
+                                    </div>
+                                    <div class="w-full h-2 rounded-full bg-[#E5E5E5] overflow-hidden">
+                                        <div class="h-full rounded-full transition-all duration-500 {{ $order->shipping_status === 'sent' ? 'w-full bg-emerald-500' : 'w-1/2 bg-amber-400' }}"></div>
+                                    </div>
+                                    <div class="flex items-center justify-between mt-2.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="w-2 h-2 rounded-full {{ $order->shipping_status === 'packing' ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500' }}"></span>
+                                            <span class="text-xs font-medium {{ $order->shipping_status === 'packing' ? 'text-amber-600' : 'text-[#A3A3A3]' }}">بسته‌بندی</span>
+                                        </div>
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="w-2 h-2 rounded-full {{ $order->shipping_status === 'sent' ? 'bg-emerald-500' : 'bg-[#D4D4D4]' }}"></span>
+                                            <span class="text-xs font-medium {{ $order->shipping_status === 'sent' ? 'text-emerald-600' : 'text-[#A3A3A3]' }}">ارسال شده</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                             <ul class="space-y-3 mb-5">
                                 @foreach ($order->items as $item)
                                     <li class="flex items-center justify-between gap-4 text-sm">

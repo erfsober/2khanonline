@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LoginController;
 use App\Http\Controllers\admin\ProductBrandController;
 use App\Http\Controllers\admin\ProductCategoryController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +40,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Products
         Route::resource('products', ProductController::class)->except(['show']);
+
+        // Orders
+        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::patch('orders/{order}/shipping-status', [OrderController::class, 'updateShippingStatus'])->name('orders.update-shipping-status');
     });
 });

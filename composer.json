@@ -10,6 +10,7 @@
         "hekmatinasser/verta": "^9.0",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",
+        "shetabit/multipay": "^2.11",
         "shetabit/payment": "^6.4",
         "spatie/laravel-medialibrary": "^11.23"
     },
