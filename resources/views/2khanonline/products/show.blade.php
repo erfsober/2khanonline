@@ -90,6 +90,7 @@
                             data-product-purchase
                             data-product-id="{{ $product->id }}"
                             data-cart-add-url="{{ route('cart.add') }}"
+                            data-cart-url="{{ route('cart.index') }}"
                             data-unit-price="{{ $unitPrice }}"
                             data-stock="{{ $stock }}"
                         >
@@ -201,9 +202,11 @@
             var unitPrice = Number(wrapper.dataset.unitPrice || 0);
             var productId = Number(wrapper.dataset.productId || 0);
             var cartAddUrl = wrapper.dataset.cartAddUrl;
+            var cartUrl = wrapper.dataset.cartUrl;
             var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             var formatter = new Intl.NumberFormat('fa-IR');
             var quantity = stock > 0 ? 1 : 0;
+            var isInCart = false;
 
             function update() {
                 quantity = Math.max(stock > 0 ? 1 : 0, Math.min(quantity, stock));
@@ -218,7 +221,7 @@
                     increaseButton.disabled = stock <= 0 || quantity >= stock;
                 }
 
-                if (addButton) {
+                if (addButton && !isInCart) {
                     addButton.disabled = stock <= 0 || quantity < 1;
                 }
             }
@@ -236,12 +239,22 @@
             }
 
             function setLoading(isLoading) {
-                if (!addButton) {
+                if (!addButton || isInCart) {
                     return;
                 }
 
                 addButton.disabled = isLoading || stock <= 0 || quantity < 1;
                 addButton.textContent = isLoading ? 'در حال افزودن...' : 'افزودن به سبد خرید';
+            }
+
+            function markAsInCart() {
+                if (!addButton) {
+                    return;
+                }
+
+                isInCart = true;
+                addButton.disabled = false;
+                addButton.textContent = 'رفتن به سبد خرید';
             }
 
             if (decreaseButton) {
@@ -265,6 +278,13 @@
 
             if (addButton) {
                 addButton.addEventListener('click', function () {
+                    if (isInCart) {
+                        if (cartUrl) {
+                            window.location.href = cartUrl;
+                        }
+                        return;
+                    }
+
                     if (quantity > stock) {
                         showMessage('موجودی کافی نیست. حداکثر موجودی: ' + formatter.format(stock), 'error');
                         update();
@@ -296,7 +316,7 @@
                         })
                         .then(function (data) {
                             showMessage(data.message || 'محصول به سبد خرید اضافه شد.', 'success');
-                            setLoading(false);
+                            markAsInCart();
 
                             if (window.KhanCart && typeof window.KhanCart.setCount === 'function') {
                                 window.KhanCart.setCount(data.cart ? data.cart.total_items : (data.total_items || 0));

@@ -19,7 +19,7 @@
                 </div>
 
                 <a href="{{ route('home') }}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-[#E5E5E5] bg-white px-5 py-3 text-sm font-semibold text-[#171717] hover:border-[#d4d4d4] hover:-translate-y-0.5 transition-all shadow-sm">
-                    ادامه خرید
+                    بازگشت به محصولات
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                     </svg>
@@ -132,7 +132,7 @@
             }
 
             function placeholderImage() {
-                return '<div class="w-full h-full flex items-center justify-center text-[#A3A3A3]"><svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z" /></svg></div>';
+                return '<div class="absolute inset-0 flex items-center justify-center text-[#A3A3A3]"><svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z" /></svg></div>';
             }
 
             function emptyState() {
@@ -146,14 +146,14 @@
 
             function itemCard(item) {
                 var image = item.image
-                    ? '<img src="' + item.image + '" alt="' + item.name + '" class="w-full h-full object-cover">'
+                    ? '<img src="' + item.image + '" alt="' + item.name + '" class="absolute inset-0 w-full h-full object-contain p-3">'
                     : placeholderImage();
                 var decreaseDisabled = item.quantity <= 1 ? 'disabled' : '';
                 var increaseDisabled = item.quantity >= item.stock ? 'disabled' : '';
 
                 return '<article class="group bg-white border border-[#E5E5E5] rounded-[24px] p-4 lg:p-5 shadow-[0_24px_70px_rgba(23,23,23,0.05)] hover:border-[#d4d4d4] hover:-translate-y-0.5 transition-all" data-cart-item="' + item.id + '">' +
-                    '<div class="grid sm:grid-cols-[128px_minmax(0,1fr)] gap-4 lg:gap-5">' +
-                        '<a href="' + item.url + '" class="relative aspect-square sm:aspect-auto sm:h-32 rounded-2xl overflow-hidden bg-[#FAFAF9] border border-[#F5F5F5]">' + image + '</a>' +
+                    '<div class="grid sm:grid-cols-[112px_minmax(0,1fr)] lg:grid-cols-[128px_minmax(0,1fr)] gap-4 lg:gap-5">' +
+                        '<a href="' + item.url + '" class="relative block w-full aspect-square rounded-2xl overflow-hidden bg-[#FAFAF9] border border-[#E5E5E5] shrink-0">' + image + '</a>' +
                         '<div class="min-w-0 flex flex-col gap-4">' +
                             '<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">' +
                                 '<div class="min-w-0">' +

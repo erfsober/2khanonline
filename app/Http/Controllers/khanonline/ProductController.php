@@ -96,6 +96,35 @@ class ProductController extends Controller
         return view('2khanonline.products.category', compact('category', 'products', 'brands', 'brandId', 'sort'));
     }
 
+    public function brand(ProductBrand $brand, Request $request): View
+    {
+        $categoryId = $request->integer('category');
+        $sort = $request->string('sort')->toString();
+
+        $productsQuery = $brand->products()->with('category');
+
+        if ($categoryId > 0) {
+            $productsQuery->where('product_category_id', $categoryId);
+        }
+
+        match ($sort) {
+            'price_asc' => $productsQuery->orderBy('price')->orderByDesc('id'),
+            'price_desc' => $productsQuery->orderByDesc('price')->orderByDesc('id'),
+            default => $productsQuery->orderByDesc('id'),
+        };
+
+        $products = $productsQuery
+            ->paginate(12);
+        $products->withQueryString();
+
+        $categories = ProductCategory::query()
+            ->whereHas('products', fn ($query) => $query->where('product_brand_id', $brand->id))
+            ->orderBy('name')
+            ->get();
+
+        return view('2khanonline.products.brand', compact('brand', 'products', 'categories', 'categoryId', 'sort'));
+    }
+
     private function productImageUrl(object $product): ?string
     {
         foreach (['img_url', 'image_url', 'image', 'thumbnail_url'] as $attribute) {

@@ -44,5 +44,8 @@ Route::get('/contact-us', [PageController::class, 'contactUs'])->name('pages.con
 Route::get('/categories/{category:slug}', [ProductController::class, 'category'])
     ->name('categories.show');
 
+Route::get('/brands/{brand:slug}', [ProductController::class, 'brand'])
+    ->name('brands.show');
+
 // product routes
 Route::get('/{slug}', [ProductController::class, 'show'])->name('products.show');
