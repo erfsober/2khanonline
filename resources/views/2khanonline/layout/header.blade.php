@@ -56,6 +56,13 @@
                             <strong class="block text-sm font-semibold text-[#171717]" dir="ltr">{{ auth()->user()->phone }}</strong>
                         </div>
 
+                        <a href="{{ route('orders.index') }}" class="mb-2 flex w-full items-center justify-between rounded-xl border border-[#E5E5E5] bg-white px-4 py-2.5 text-sm font-semibold text-[#171717] hover:bg-[#FAFAF9] transition-colors">
+                            سفارش‌های من
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#a3a3a3] rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="w-full rounded-xl border border-red-100 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100 transition-colors">

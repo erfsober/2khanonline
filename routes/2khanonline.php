@@ -3,7 +3,9 @@
 use App\Http\Controllers\khanonline\AuthController;
 use App\Http\Controllers\khanonline\CartController;
 use App\Http\Controllers\khanonline\HomeController;
+use App\Http\Controllers\khanonline\OrderController;
 use App\Http\Controllers\khanonline\PageController;
+use App\Http\Controllers\khanonline\PaymentController;
 use App\Http\Controllers\khanonline\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,9 @@ Route::middleware('guest:web')->group(function () {
 Route::middleware('auth:web')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.start');
 });
 
 // Cart routes
@@ -37,6 +42,7 @@ Route::prefix('cart')->group(function () {
     Route::delete('/clear', [CartController::class, 'clear'])->name('cart.clear');
 });
 
+Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 Route::get('/about-us', [PageController::class, 'aboutUs'])->name('pages.about-us');
 Route::get('/contact-us', [PageController::class, 'contactUs'])->name('pages.contact-us');

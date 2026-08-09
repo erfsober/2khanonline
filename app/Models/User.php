@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->hasMany(Otp::class, 'phone', 'phone');
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     protected function casts(): array
     {
         return [

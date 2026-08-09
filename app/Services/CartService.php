@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class CartService
@@ -19,6 +21,80 @@ class CartService
         }
 
         return $cart;
+    }
+
+    public function mergeGuestCartForUser(User $user): void
+    {
+        $guestCartId = Session::get('cart_id');
+
+        if (! $guestCartId) {
+            return;
+        }
+
+        DB::transaction(function () use ($user, $guestCartId): void {
+            $guestCart = Cart::query()
+                ->with('items.product')
+                ->whereKey($guestCartId)
+                ->whereNull('user_id')
+                ->first();
+
+            if (! $guestCart) {
+                Session::forget('cart_id');
+
+                return;
+            }
+
+            $userCart = Cart::query()
+                ->with('items.product')
+                ->where('user_id', $user->id)
+                ->first();
+
+            if (! $userCart) {
+                $guestCart->update([
+                    'user_id' => $user->id,
+                    'session_id' => null,
+                ]);
+
+                Session::put('cart_id', $guestCart->id);
+
+                return;
+            }
+
+            if ($userCart->id === $guestCart->id) {
+                Session::put('cart_id', $userCart->id);
+
+                return;
+            }
+
+            foreach ($guestCart->items as $guestItem) {
+                $existingItem = $userCart->items->firstWhere('product_id', $guestItem->product_id);
+
+                if ($existingItem) {
+                    $newQuantity = $existingItem->quantity + $guestItem->quantity;
+                    $stock = $guestItem->product?->stock;
+
+                    if ($stock !== null) {
+                        $newQuantity = min($newQuantity, $stock);
+                    }
+
+                    $existingItem->update([
+                        'quantity' => max($newQuantity, 1),
+                        'price' => $guestItem->price,
+                    ]);
+                } else {
+                    $userCart->items()->create([
+                        'product_id' => $guestItem->product_id,
+                        'quantity' => $guestItem->quantity,
+                        'price' => $guestItem->price,
+                    ]);
+                }
+            }
+
+            $guestCart->items()->delete();
+            $guestCart->delete();
+
+            Session::put('cart_id', $userCart->id);
+        });
     }
 
     public function addItem(Product $product, int $quantity = 1): CartItem

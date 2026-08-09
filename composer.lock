@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4abd3004cf925f103d841c9c18c32d61",
+    "content-hash": "e0f9575b1a4d30a9d46664e2f11ccebe",
     "packages": [
         {
             "name": "brick/math",
@@ -133,6 +133,148 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "chillerlan/php-cache",
+            "version": "5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chillerlan/php-cache.git",
+                "reference": "35f1596660c49078edb01ddc8fedd259239ed3a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chillerlan/php-cache/zipball/35f1596660c49078edb01ddc8fedd259239ed3a6",
+                "reference": "35f1596660c49078edb01ddc8fedd259239ed3a6",
+                "shasum": ""
+            },
+            "require": {
+                "chillerlan/php-settings-container": "^3.1",
+                "php": "^8.1",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "psr/simple-cache": "^2.0 || ^3.0"
+            },
+            "provide": {
+                "psr/simple-cache-implementation": "2.0 || 3.0"
+            },
+            "require-dev": {
+                "phan/phan": "^5.4",
+                "phpmd/phpmd": "^2.15",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^3.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chillerlan\\SimpleCache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/chillerlan/php-cache/graphs/contributors"
+                }
+            ],
+            "description": "A psr/simple-cache implementation. PHP 8.1+",
+            "homepage": "https://github.com/chillerlan/php-cache",
+            "keywords": [
+                "cache",
+                "php8",
+                "psr-16"
+            ],
+            "support": {
+                "issues": "https://github.com/chillerlan/php-cache/issues",
+                "source": "https://github.com/chillerlan/php-cache"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate?hosted_button_id=WLYUNAT9ZTJZ4",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://ko-fi.com/codemasher",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2024-02-25T16:01:12+00:00"
+        },
+        {
+            "name": "chillerlan/php-settings-container",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chillerlan/php-settings-container.git",
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/a0a487cbf5344f721eb504bf0f59bada40c381b7",
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phan/phan": "^5.5.2",
+                "phpmd/phpmd": "^2.15",
+                "phpstan/phpstan": "^2.1.31",
+                "phpstan/phpstan-deprecation-rules": "^2.0.3",
+                "phpunit/phpunit": "^10.5",
+                "slevomat/coding-standard": "^8.22",
+                "squizlabs/php_codesniffer": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chillerlan\\Settings\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
+                }
+            ],
+            "description": "A container class for immutable settings objects. Not a DI container.",
+            "homepage": "https://github.com/chillerlan/php-settings-container",
+            "keywords": [
+                "Settings",
+                "configuration",
+                "container",
+                "helper",
+                "property hook"
+            ],
+            "support": {
+                "issues": "https://github.com/chillerlan/php-settings-container/issues",
+                "source": "https://github.com/chillerlan/php-settings-container"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate?hosted_button_id=WLYUNAT9ZTJZ4",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://ko-fi.com/codemasher",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2026-03-20T21:10:52+00:00"
         },
         {
             "name": "composer/semver",
@@ -2881,134 +3023,6 @@
             "time": "2026-02-16T23:10:27+00:00"
         },
         {
-            "name": "php-flasher/flasher",
-            "version": "v2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-flasher/flasher.git",
-                "reference": "3ddc073a6dafeaa924b64dc0eca3b990b22b8bcd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/3ddc073a6dafeaa924b64dc0eca3b990b22b8bcd",
-                "reference": "3ddc073a6dafeaa924b64dc0eca3b990b22b8bcd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "yoeunes/regex-parser": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "functions.php",
-                    "helpers.php"
-                ],
-                "psr-4": {
-                    "Flasher\\Prime\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Younes ENNAJI",
-                    "email": "younes.ennaji.pro@gmail.com",
-                    "homepage": "https://www.linkedin.com/in/younes--ennaji/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The foundational PHP library for PHPFlasher, enabling the creation of framework-agnostic flash notifications. Ideal for building custom integrations or for use in PHP projects.",
-            "homepage": "https://php-flasher.io",
-            "keywords": [
-                "custom-integrations",
-                "flash-notifications",
-                "flasher-core",
-                "framework-agnostic",
-                "open-source",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/php-flasher/php-flasher/issues",
-                "source": "https://github.com/php-flasher/php-flasher"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/yoeunes",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-04-13T08:48:01+00:00"
-        },
-        {
-            "name": "php-flasher/flasher-symfony",
-            "version": "v2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-flasher/flasher-symfony.git",
-                "reference": "072ecd625fb3423c99e46d72f807c13796efe163"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-symfony/zipball/072ecd625fb3423c99e46d72f807c13796efe163",
-                "reference": "072ecd625fb3423c99e46d72f807c13796efe163",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "php-flasher/flasher": "^2.6.1",
-                "symfony/config": "^7.0|^8.0",
-                "symfony/console": "^7.0|^8.0",
-                "symfony/dependency-injection": "^7.0|^8.0",
-                "symfony/http-kernel": "^7.0|^8.0"
-            },
-            "suggest": {
-                "symfony/translation": "To translate flash messages, title and presets",
-                "symfony/ux-twig-component": "To utilize and interact with flash messages components in Twig templates"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Flasher\\Symfony\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Younes ENNAJI",
-                    "email": "younes.ennaji.pro@gmail.com",
-                    "homepage": "https://www.linkedin.com/in/younes--ennaji/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Integrate flash notifications into Symfony projects effortlessly with PHPFlasher. Improve user experience and application feedback loops easily.",
-            "homepage": "https://php-flasher.io",
-            "keywords": [
-                "flash-notifications",
-                "open-source",
-                "php",
-                "phpflasher",
-                "symfony",
-                "user-feedback"
-            ],
-            "support": {
-                "issues": "https://github.com/php-flasher/php-flasher/issues",
-                "source": "https://github.com/php-flasher/php-flasher"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/yoeunes",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-04-13T08:48:01+00:00"
-        },
-        {
             "name": "phpoption/phpoption",
             "version": "1.9.5",
             "source": {
@@ -3773,6 +3787,268 @@
             "time": "2026-06-18T03:57:49+00:00"
         },
         {
+            "name": "shetabit/multipay",
+            "version": "v2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shetabit/multipay.git",
+                "reference": "b8502d16ee5d148aacf5ee88f0df96b2e3d18711"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shetabit/multipay/zipball/b8502d16ee5d148aacf5ee88f0df96b2e3d18711",
+                "reference": "b8502d16ee5d148aacf5ee88f0df96b2e3d18711",
+                "shasum": ""
+            },
+            "require": {
+                "chillerlan/php-cache": "^4.1|^5.0",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": ">=7.0",
+                "nesbot/carbon": "^2.0|^3.0",
+                "php": "^8.0",
+                "ramsey/uuid": "^4.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": ">=9.0",
+                "rector/rector": "^2.0",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Shetabit\\Multipay\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mahdi Khanzadi",
+                    "email": "khanzadimahdi@gmail.com",
+                    "homepage": "https://github.com/shetabit",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Payment Gateway Integration Package",
+            "homepage": "https://github.com/shetabit/multipay",
+            "keywords": [
+                "Bank",
+                "Meli",
+                "Payline",
+                "asan pardakht",
+                "gateway",
+                "iranKish payment gateway",
+                "irankish",
+                "jahanPay payment gateway",
+                "jahanpay",
+                "jibit",
+                "jibit payment gateway",
+                "meli payment gateway",
+                "mellat",
+                "mellat payment gateway",
+                "melli",
+                "parsian",
+                "parsian payment gateway",
+                "pasargad",
+                "pasargad payment gateway",
+                "pay",
+                "pay payment gateway",
+                "payline payment gateway",
+                "payment",
+                "payment gateway",
+                "paypal",
+                "paypal payment gateway",
+                "php asan pardakht",
+                "php iranKish",
+                "php iranKish package",
+                "php jahanPay",
+                "php jahanPay package",
+                "php jibit",
+                "php jibit package",
+                "php meli",
+                "php meli package",
+                "php mellat",
+                "php mellat package",
+                "php melli bank payment package",
+                "php parsian",
+                "php parsian package",
+                "php pasargad",
+                "php pasargad package",
+                "php pay",
+                "php pay package",
+                "php payline",
+                "php payline package",
+                "php payment gateway",
+                "php payment package",
+                "php paypal",
+                "php paypal package",
+                "php sadad",
+                "php sadad package",
+                "php saderat",
+                "php saderat package",
+                "php saman",
+                "php saman package",
+                "php shaparak",
+                "php shaparak package",
+                "php zarinpal",
+                "php zarinpal package",
+                "sadad",
+                "sadad payment gateway",
+                "saderat",
+                "saderat payment gateway",
+                "saman",
+                "saman payment gateway",
+                "shaparak",
+                "shaparak payment gateway",
+                "shetabit",
+                "zarinpal",
+                "zarinpal payment gateway"
+            ],
+            "support": {
+                "issues": "https://github.com/shetabit/multipay/issues",
+                "source": "https://github.com/shetabit/multipay/tree/v2.11.0"
+            },
+            "time": "2026-08-02T06:13:00+00:00"
+        },
+        {
+            "name": "shetabit/payment",
+            "version": "v6.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shetabit/payment.git",
+                "reference": "3da6b92583592b68a28168c88844a80f21e62d97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shetabit/payment/zipball/3da6b92583592b68a28168c88844a80f21e62d97",
+                "reference": "3da6b92583592b68a28168c88844a80f21e62d97",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/broadcasting": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.0",
+                "shetabit/multipay": "^2.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": ">=9.0",
+                "squizlabs/php_codesniffer": "^3.5|^4.0"
+            },
+            "suggest": {
+                "ext-soap": "Needed to support some drivers that required SOAP"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Payment": "Shetabit\\Payment\\Facade\\Payment"
+                    },
+                    "providers": [
+                        "Shetabit\\Payment\\Provider\\PaymentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Shetabit\\Payment\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mahdi Khanzadi",
+                    "email": "khanzadimahdi@gmail.com",
+                    "homepage": "https://github.com/shetabit",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Payment Gateway Integration Package",
+            "homepage": "https://github.com/shetabit/payment",
+            "keywords": [
+                "Bank",
+                "Meli",
+                "Payline",
+                "gateway",
+                "iranKish payment gateway",
+                "irankish",
+                "jahanPay payment gateway",
+                "jahanpay",
+                "jibit",
+                "jibit payment gateway",
+                "laravel iranKish",
+                "laravel iranKish package",
+                "laravel jahanPay",
+                "laravel jahanPay package",
+                "laravel jibit",
+                "laravel jibit package",
+                "laravel meli",
+                "laravel meli package",
+                "laravel mellat",
+                "laravel mellat package",
+                "laravel melli bank payment package",
+                "laravel parsian",
+                "laravel parsian package",
+                "laravel pasargad",
+                "laravel pasargad package",
+                "laravel pay",
+                "laravel pay package",
+                "laravel payline",
+                "laravel payline package",
+                "laravel payment gateway",
+                "laravel payment package",
+                "laravel paypal",
+                "laravel paypal package",
+                "laravel sadad",
+                "laravel sadad package",
+                "laravel saderat",
+                "laravel saderat package",
+                "laravel saman",
+                "laravel saman package",
+                "laravel shaparak",
+                "laravel shaparak package",
+                "laravel zarinpal",
+                "laravel zarinpal package",
+                "meli payment gateway",
+                "mellat",
+                "mellat payment gateway",
+                "melli",
+                "parsian",
+                "parsian payment gateway",
+                "pasargad",
+                "pasargad payment gateway",
+                "pay",
+                "pay payment gateway",
+                "payline payment gateway",
+                "payment",
+                "payment gateway",
+                "paypal",
+                "paypal payment gateway",
+                "sadad",
+                "sadad payment gateway",
+                "saderat",
+                "saderat payment gateway",
+                "saman",
+                "saman payment gateway",
+                "shaparak",
+                "shaparak payment gateway",
+                "shetabit",
+                "zarinpal",
+                "zarinpal payment gateway"
+            ],
+            "support": {
+                "issues": "https://github.com/shetabit/payment/issues",
+                "source": "https://github.com/shetabit/payment/tree/v6.4.0"
+            },
+            "time": "2026-02-24T07:20:09+00:00"
+        },
+        {
             "name": "spatie/image",
             "version": "3.9.5",
             "source": {
@@ -4212,84 +4488,6 @@
             "time": "2026-05-29T05:06:50+00:00"
         },
         {
-            "name": "symfony/config",
-            "version": "v8.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "cb84364d9b47030c6979422d6911f9ea6603f5a2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/cb84364d9b47030c6979422d6911f9ea6603f5a2",
-                "reference": "cb84364d9b47030c6979422d6911f9ea6603f5a2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/filesystem": "^7.4|^8.0",
-                "symfony/polyfill-ctype": "^1.8"
-            },
-            "conflict": {
-                "symfony/service-contracts": "<2.5"
-            },
-            "require-dev": {
-                "symfony/event-dispatcher": "^7.4|^8.0",
-                "symfony/finder": "^7.4|^8.0",
-                "symfony/messenger": "^7.4|^8.0",
-                "symfony/service-contracts": "^2.5|^3",
-                "symfony/yaml": "^7.4|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Config\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/config/tree/v8.1.4"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-07-31T12:43:13+00:00"
-        },
-        {
             "name": "symfony/console",
             "version": "v8.1.4",
             "source": {
@@ -4457,87 +4655,6 @@
                 }
             ],
             "time": "2026-05-29T05:06:50+00:00"
-        },
-        {
-            "name": "symfony/dependency-injection",
-            "version": "v8.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c06539a770773c73695f687a30bd93b555860c1c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c06539a770773c73695f687a30bd93b555860c1c",
-                "reference": "c06539a770773c73695f687a30bd93b555860c1c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1",
-                "psr/container": "^1.1|^2.0",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/service-contracts": "^3.6",
-                "symfony/var-exporter": "^8.1"
-            },
-            "conflict": {
-                "ext-psr": "<1.1|>=2"
-            },
-            "provide": {
-                "psr/container-implementation": "1.1|2.0",
-                "symfony/service-implementation": "1.1|2.0|3.0"
-            },
-            "require-dev": {
-                "symfony/config": "^7.4|^8.0",
-                "symfony/expression-language": "^7.4|^8.0",
-                "symfony/yaml": "^7.4|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\DependencyInjection\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Allows you to standardize and centralize the way objects are constructed in your application",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v8.1.4"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-08-07T15:02:39+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -4856,77 +4973,6 @@
                 }
             ],
             "time": "2026-06-05T06:23:12+00:00"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v8.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/17856b7a222664a26a5ea1cb06ee0721c2438217",
-                "reference": "17856b7a222664a26a5ea1cb06ee0721c2438217",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-mbstring": "~1.8"
-            },
-            "require-dev": {
-                "symfony/process": "^7.4|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides basic utilities for the filesystem",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.1.2"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-07-22T15:42:13+00:00"
         },
         {
             "name": "symfony/finder",
@@ -5435,93 +5481,6 @@
                 }
             ],
             "time": "2026-04-10T16:19:22+00:00"
-        },
-        {
-            "name": "symfony/polyfill-deepclone",
-            "version": "v1.40.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-deepclone.git",
-                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/dca4ccba5f360070b574414dce4c1e7a559844fa",
-                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "provide": {
-                "ext-deepclone": "*"
-            },
-            "suggest": {
-                "ext-deepclone": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\DeepClone\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill for the deepclone extension",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "deepclone",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.40.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-06-12T07:27:17+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -6932,89 +6891,6 @@
             "time": "2026-07-22T15:42:13+00:00"
         },
         {
-            "name": "symfony/var-exporter",
-            "version": "v8.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "6efa89335ab6d336643a807fcc89ae4f8a7a17e9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/6efa89335ab6d336643a807fcc89ae4f8a7a17e9",
-                "reference": "6efa89335ab6d336643a807fcc89ae4f8a7a17e9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/polyfill-deepclone": "^1.40"
-            },
-            "require-dev": {
-                "symfony/property-access": "^7.4|^8.0",
-                "symfony/serializer": "^7.4|^8.0",
-                "symfony/var-dumper": "^7.4|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\VarExporter\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides tools to export, instantiate, hydrate, clone and lazy-load PHP objects",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "clone",
-                "construct",
-                "deep-clone",
-                "export",
-                "hydrate",
-                "instantiate",
-                "lazy-loading",
-                "proxy",
-                "serialize"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v8.1.4"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-07-30T12:40:56+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.4.0",
             "source": {
@@ -7226,94 +7102,6 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
-        },
-        {
-            "name": "yoeunes/regex-parser",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yoeunes/regex-parser.git",
-                "reference": "770d1142c3c62195fbde7be6e5277da90b65d3a2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yoeunes/regex-parser/zipball/770d1142c3c62195fbde7be6e5277da90b65d3a2",
-                "reference": "770d1142c3c62195fbde7be6e5277da90b65d3a2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2"
-            },
-            "suggest": {
-                "phpstan/extension-installer": "To automatically enable the PHPStan rule for regex validation.",
-                "phpstan/phpstan": "To run static analysis and detect invalid regex patterns.",
-                "psr/cache": "To share AST cache via PSR-6 pools.",
-                "psr/simple-cache": "To share AST cache via PSR-16 caches."
-            },
-            "bin": [
-                "bin/regex"
-            ],
-            "type": "library",
-            "extra": {
-                "ide": {
-                    "regex.dist.json": "./regex.schema.json"
-                },
-                "phpstan": {
-                    "includes": [
-                        "extension.neon"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-main": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/Automata/LegacyAliases.php"
-                ],
-                "psr-4": {
-                    "RegexParser\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Younes ENNAJI",
-                    "email": "younes.ennaji.pro@gmail.com",
-                    "homepage": "https://www.linkedin.com/in/yoeunes/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A powerful PCRE regex parser with lexer, AST builder, validation, ReDoS analysis, and syntax highlighting. Zero dependencies, blazing fast, and production-ready.",
-            "homepage": "https://github.com/yoeunes/regex-parser",
-            "keywords": [
-                "PCRE",
-                "ast",
-                "cli",
-                "lexer",
-                "parser",
-                "php",
-                "redos",
-                "regex",
-                "security",
-                "syntax-highlighting",
-                "validation"
-            ],
-            "support": {
-                "docs": "https://github.com/yoeunes/regex-parser#readme",
-                "issues": "https://github.com/yoeunes/regex-parser/issues",
-                "source": "https://github.com/yoeunes/regex-parser"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/yoeunes",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-01-12T20:49:05+00:00"
         }
     ],
     "packages-dev": [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\khanonline;
 use App\Http\Controllers\Controller;
 use App\Models\Otp;
 use App\Models\User;
+use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +17,14 @@ class AuthController extends Controller
     private const OTP_EXPIRATION_MINUTES = 5;
     private const OTP_RESEND_COOLDOWN_SECONDS = 120;
 
+    public function __construct(
+        private readonly CartService $cartService
+    ) {}
+
     public function show(): View|RedirectResponse
     {
         if (Auth::guard('web')->check()) {
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         }
 
         return view('2khanonline.auth.index');
@@ -125,6 +130,7 @@ class AuthController extends Controller
 
         Auth::guard('web')->login($user);
         $request->session()->regenerate();
+        $this->cartService->mergeGuestCartForUser($user);
 
         return redirect()->intended(route('home'));
     }

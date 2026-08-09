@@ -26,6 +26,12 @@
                 </a>
             </div>
 
+            @if (session('payment_error'))
+                <div class="rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-medium text-red-600 mb-6">
+                    {{ session('payment_error') }}
+                </div>
+            @endif
+
             <div class="hidden rounded-2xl border px-5 py-4 text-sm font-medium mb-6" data-cart-alert></div>
 
             <div class="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-6 lg:gap-8 items-start" data-cart-page
@@ -33,6 +39,7 @@
                 data-update-base="{{ url('/cart/update') }}"
                 data-remove-base="{{ url('/cart/remove') }}"
                 data-clear-url="{{ route('cart.clear') }}"
+                data-checkout-url="{{ route('checkout.start') }}"
             >
                 <div class="space-y-4" data-cart-items>
                     <div class="bg-white border border-[#E5E5E5] rounded-[24px] p-8 text-center shadow-[0_24px_70px_rgba(23,23,23,0.05)]" data-cart-loading>
@@ -250,6 +257,14 @@
                     showAlert(error.message || 'امکان خالی کردن سبد خرید وجود ندارد.', 'error');
                     renderCart();
                 });
+            });
+
+            checkoutButton.addEventListener('click', function () {
+                if (checkoutButton.disabled || !page.dataset.checkoutUrl) {
+                    return;
+                }
+
+                window.location.href = page.dataset.checkoutUrl;
             });
 
             loadCart();

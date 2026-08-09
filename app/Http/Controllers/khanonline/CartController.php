@@ -7,19 +7,36 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Services\CartService;
+use App\Services\CheckoutService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
     public function __construct(
-        private readonly CartService $cartService
+        private readonly CartService $cartService,
+        private readonly CheckoutService $checkoutService
     ) {}
 
     public function page(): View
     {
         return view('2khanonline.cart.index');
+    }
+
+    public function checkout(Request $request): RedirectResponse
+    {
+        try {
+            $gatewayUrl = $this->checkoutService->start($request->user());
+
+            return redirect()->away($gatewayUrl);
+        } catch (ValidationException $exception) {
+            return redirect()
+                ->route('cart.index')
+                ->with('payment_error', collect($exception->errors())->flatten()->first());
+        }
     }
 
     public function index(): JsonResponse
