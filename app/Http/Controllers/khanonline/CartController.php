@@ -28,8 +28,19 @@ class CartController extends Controller
 
     public function checkout(Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'address' => ['required', 'string', 'min:10', 'max:2000'],
+        ], [
+            'address.required' => 'لطفاً آدرس تحویل را وارد کنید.',
+            'address.min' => 'آدرس تحویل باید حداقل ۱۰ کاراکتر باشد.',
+            'address.max' => 'آدرس تحویل بیش از حد طولانی است.',
+        ]);
+
         try {
-            $gatewayUrl = $this->checkoutService->start($request->user());
+            $gatewayUrl = $this->checkoutService->start(
+                $request->user(),
+                trim($validated['address'])
+            );
 
             return redirect()->away($gatewayUrl);
         } catch (ValidationException $exception) {

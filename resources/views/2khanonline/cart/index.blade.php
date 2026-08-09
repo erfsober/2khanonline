@@ -26,9 +26,9 @@
                 </a>
             </div>
 
-            @if (session('payment_error'))
+            @if (session('payment_error') || $errors->any())
                 <div class="rounded-2xl border border-red-100 bg-red-50 px-5 py-4 text-sm font-medium text-red-600 mb-6">
-                    {{ session('payment_error') }}
+                    {{ session('payment_error') ?: $errors->first() }}
                 </div>
             @endif
 
@@ -40,6 +40,9 @@
                 data-remove-base="{{ url('/cart/remove') }}"
                 data-clear-url="{{ route('cart.clear') }}"
                 data-checkout-url="{{ route('checkout.start') }}"
+                data-checkout-continue-url="{{ route('checkout.continue') }}"
+                data-is-authenticated="{{ auth()->check() ? '1' : '0' }}"
+                data-user-address="{{ auth()->user()?->address ?? '' }}"
             >
                 <div class="space-y-4" data-cart-items>
                     <div class="bg-white border border-[#E5E5E5] rounded-[24px] p-8 text-center shadow-[0_24px_70px_rgba(23,23,23,0.05)]" data-cart-loading>
@@ -81,6 +84,49 @@
             </div>
         </div>
     </section>
+
+    <div class="fixed inset-0 z-50 hidden items-center justify-center p-4" data-address-modal aria-hidden="true">
+        <div class="absolute inset-0 bg-[#171717]/45 backdrop-blur-[2px]" data-address-modal-overlay></div>
+        <div class="relative w-full max-w-lg rounded-[24px] border border-[#E5E5E5] bg-white p-6 shadow-[0_24px_70px_rgba(23,23,23,0.18)]" role="dialog" aria-modal="true" aria-labelledby="checkout-address-title">
+            <div class="flex items-start justify-between gap-4 mb-5">
+                <div>
+                    <h2 id="checkout-address-title" class="text-lg font-bold text-[#171717]">آدرس تحویل</h2>
+                    <p class="text-sm text-[#737373] mt-2 leading-7">آدرس کامل تحویل سفارش را وارد کنید. این آدرس برای دفعات بعد در همین مرورگر ذخیره می‌شود.</p>
+                </div>
+                <button type="button" class="shrink-0 w-10 h-10 rounded-xl border border-[#E5E5E5] text-[#737373] hover:bg-[#FAFAF9] transition-colors" data-address-modal-close aria-label="بستن">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form method="POST" action="{{ route('checkout.start') }}" data-checkout-form>
+                @csrf
+                <label for="checkout-address" class="block text-sm font-semibold text-[#171717] mb-2">آدرس</label>
+                <textarea
+                    id="checkout-address"
+                    name="address"
+                    rows="5"
+                    required
+                    minlength="10"
+                    maxlength="2000"
+                    placeholder="مثال: تهران، خیابان ...، پلاک ...، واحد ..."
+                    class="w-full rounded-2xl border border-[#E5E5E5] bg-[#FAFAF9] px-4 py-3 text-sm text-[#171717] leading-7 placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#B88A2A] focus:ring-2 focus:ring-[#B88A2A]/15 resize-y"
+                    data-checkout-address
+                ></textarea>
+                <p class="hidden text-xs text-red-600 mt-2" data-address-error></p>
+
+                <div class="flex flex-col-reverse sm:flex-row gap-3 mt-5">
+                    <button type="button" class="w-full sm:w-auto rounded-2xl border border-[#E5E5E5] px-5 py-3 text-sm font-semibold text-[#171717] hover:bg-[#FAFAF9] transition-colors" data-address-modal-close>
+                        انصراف
+                    </button>
+                    <button type="submit" class="w-full sm:flex-1 rounded-2xl bg-[#171717] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2a2a2a] transition-colors" data-address-submit>
+                        تأیید و ادامه پرداخت
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -98,9 +144,67 @@
             var summaryTotal = document.querySelector('[data-cart-summary-total]');
             var clearButton = document.querySelector('[data-clear-cart]');
             var checkoutButton = document.querySelector('[data-checkout-button]');
+            var addressModal = document.querySelector('[data-address-modal]');
+            var addressInput = document.querySelector('[data-checkout-address]');
+            var addressError = document.querySelector('[data-address-error]');
+            var checkoutForm = document.querySelector('[data-checkout-form]');
             var formatter = new Intl.NumberFormat('fa-IR');
             var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             var cartState = { items: [], total: 0, total_items: 0 };
+            var ADDRESS_STORAGE_KEY = 'khan_checkout_address';
+            var isAuthenticated = page.dataset.isAuthenticated === '1';
+
+            function getSavedAddress() {
+                var userAddress = (page.dataset.userAddress || '').trim();
+                if (userAddress) {
+                    return userAddress;
+                }
+
+                try {
+                    return localStorage.getItem(ADDRESS_STORAGE_KEY) || '';
+                } catch (error) {
+                    return '';
+                }
+            }
+
+            function saveAddress(address) {
+                try {
+                    localStorage.setItem(ADDRESS_STORAGE_KEY, address);
+                } catch (error) {
+                    // Ignore storage failures (private mode, quota, etc).
+                }
+            }
+
+            function openAddressModal() {
+                if (!addressModal || !addressInput) {
+                    return;
+                }
+
+                addressInput.value = getSavedAddress();
+                if (addressError) {
+                    addressError.classList.add('hidden');
+                    addressError.textContent = '';
+                }
+
+                addressModal.classList.remove('hidden');
+                addressModal.classList.add('flex');
+                addressModal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('overflow-hidden');
+                window.setTimeout(function () {
+                    addressInput.focus();
+                }, 40);
+            }
+
+            function closeAddressModal() {
+                if (!addressModal) {
+                    return;
+                }
+
+                addressModal.classList.add('hidden');
+                addressModal.classList.remove('flex');
+                addressModal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('overflow-hidden');
+            }
 
             function request(url, options) {
                 return fetch(url, Object.assign({
@@ -260,12 +364,57 @@
             });
 
             checkoutButton.addEventListener('click', function () {
-                if (checkoutButton.disabled || !page.dataset.checkoutUrl) {
+                if (checkoutButton.disabled) {
                     return;
                 }
 
-                window.location.href = page.dataset.checkoutUrl;
+                if (!isAuthenticated) {
+                    window.location.href = page.dataset.checkoutContinueUrl || '/checkout';
+                    return;
+                }
+
+                openAddressModal();
             });
+
+            if (addressModal) {
+                addressModal.querySelectorAll('[data-address-modal-close], [data-address-modal-overlay]').forEach(function (element) {
+                    element.addEventListener('click', closeAddressModal);
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape' && !addressModal.classList.contains('hidden')) {
+                        closeAddressModal();
+                    }
+                });
+            }
+
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function (event) {
+                    var address = (addressInput?.value || '').trim();
+
+                    if (address.length < 10) {
+                        event.preventDefault();
+                        if (addressError) {
+                            addressError.textContent = 'لطفاً آدرس تحویل را کامل‌تر وارد کنید.';
+                            addressError.classList.remove('hidden');
+                        }
+                        addressInput?.focus();
+                        return;
+                    }
+
+                    if (addressInput) {
+                        addressInput.value = address;
+                    }
+
+                    saveAddress(address);
+
+                    var submitButton = checkoutForm.querySelector('[data-address-submit]');
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'در حال انتقال به درگاه...';
+                    }
+                });
+            }
 
             loadCart();
         });
