@@ -7,13 +7,13 @@ use App\Http\Controllers\khanonline\OrderController;
 use App\Http\Controllers\khanonline\PageController;
 use App\Http\Controllers\khanonline\PaymentController;
 use App\Http\Controllers\khanonline\ProductController;
+use App\Http\Controllers\khanonline\SeoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
 
 Route::get('/api/search', [ProductController::class, 'search'])->name('api.search');
-
-
 
 Route::middleware('guest:web')->group(function () {
     Route::get('/auth', [AuthController::class, 'show'])->name('auth.show');

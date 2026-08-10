@@ -1,6 +1,8 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'تماس با ما | دو خان')
+@section('title', 'تماس با Smokify | اسموکیفای شیراز')
+@section('seo_title', 'تماس با Smokify | اسموکیفای در شیراز')
+@section('seo_description', 'راه‌های ارتباط با فروشگاه Smokify | اسموکیفای در شیراز برای مشاوره و پیگیری خرید سیگار آنلاین، ویپ، جویس و زغال.')
 
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />

@@ -12,14 +12,14 @@
 
         {{-- Logo (right side in RTL) --}}
         <a href="/" class="flex items-center gap-2 shrink-0">
-            <span class="text-xl font-bold tracking-tight">دو خان</span>
+            <span class="text-xl font-bold tracking-tight">Smokify | اسموکیفای</span>
             <span class="w-2 h-2 rounded-full bg-[#B88A2A] mt-0.5"></span>
         </a>
 
         {{-- Center Navigation --}}
         <nav class="hidden lg:flex items-center gap-8">
             <a href="/" class="text-sm font-medium text-black border-b-2 border-[#B88A2A] pb-1">خانه</a>
-            @foreach ($navigationCategories->take(4)->values() as $category)
+            @foreach ($navigationCategories->take(6)->values() as $category)
                 <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="text-sm font-medium text-black hover:text-[#171717] transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap">
                     {{ $category->name }}
                 </a>
@@ -94,7 +94,7 @@
     <button type="button" class="absolute inset-0 bg-black/40" aria-label="بستن منو" data-mobile-menu-close></button>
     <nav class="relative mt-[72px] border-b border-[#E5E5E5] bg-white px-6 py-5 shadow-lg">
         <a href="/" class="block border-b border-[#F5F5F5] py-3 text-sm font-medium text-black" data-mobile-menu-link>خانه</a>
-        @foreach ($navigationCategories->take(4)->values() as $category)
+        @foreach ($navigationCategories->take(6)->values() as $category)
             <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="block border-b border-[#F5F5F5] py-3 text-sm font-medium text-black last:border-0" data-mobile-menu-link>
                 {{ $category->name }}
             </a>

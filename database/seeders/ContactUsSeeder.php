@@ -24,10 +24,10 @@ HTML;
         ContactUs::create([
             'title' => 'تماس با ما',
             'description' => $description,
-            'location' => '35.689200,51.389000',
+            'location' => '29.591800,52.583700',
             'telegram' => 'https://t.me/',
             'whatsapp' => 'https://wa.me/989121234567',
-            'address' => 'تهران، خیابان ولیعصر، پلاک ۱۲۳',
+            'address' => 'شیراز، ایران',
         ]);
     }
 }

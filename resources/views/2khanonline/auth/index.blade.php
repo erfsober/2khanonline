@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ورود به حساب کاربری | دو خان</title>
+    <title>ورود به حساب کاربری | Smokify | اسموکیفای</title>
+    <meta name="robots" content="noindex,nofollow,noarchive">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body { font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif; }
@@ -22,7 +23,7 @@
     <section class="w-full max-w-[460px]">
         <div class="mb-7 text-center">
             <a href="/" class="inline-flex items-center justify-center gap-2 mb-5">
-                <span class="text-2xl font-bold tracking-tight">دو خان</span>
+                <span class="text-2xl font-bold tracking-tight">Smokify | اسموکیفای</span>
                 <span class="w-2.5 h-2.5 rounded-full bg-[#B88A2A]"></span>
             </a>
             <h1 class="text-2xl font-bold mb-2">ورود به حساب کاربری</h1>
@@ -190,7 +191,7 @@
         </div>
 
         <p class="mt-5 text-center text-xs leading-6 text-[#737373]">
-            ورود شما به معنای پذیرش قوانین و حریم خصوصی دو خان است.
+            ورود شما به معنای پذیرش قوانین و حریم خصوصی اسموکیفای است.
         </p>
     </section>
 </main>

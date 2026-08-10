@@ -6,10 +6,10 @@
             {{-- Brand + Support --}}
             <div class="sm:col-span-2 lg:col-span-2">
                 <a href="/" class="flex items-center gap-2 mb-3">
-                    <span class="text-lg font-bold">دو خان</span>
+                    <span class="text-lg font-bold">Smokify | اسموکیفای</span>
                     <span class="w-2 h-2 rounded-full bg-[#B88A2A]"></span>
                 </a>
-                <p class="text-sm text-[#737373] leading-7">فروشگاه آنلاین محصولات تنباکو با بهترین کیفیت و ارسال سریع به سراسر کشور.</p>
+                <p class="text-sm text-[#737373] leading-7">Smokify | اسموکیفای؛ فروشگاه اینترنتی سیگار خارجی و ایرانی، ویپ و پاد، جویس و سالت و انواع زغال در شیراز با ارسال سریع.</p>
 
                 <a href="tel:09149551535" class="group inline-flex items-center gap-3 mt-5 text-sm text-[#737373] hover:text-[#171717] transition-colors">
                     <span class="w-10 h-10 rounded-xl bg-[#FAFAF9] border border-[#E5E5E5] flex items-center justify-center text-[#B88A2A] group-hover:border-[#B88A2A]/40 group-hover:bg-[#B88A2A]/5 transition-colors">
@@ -97,7 +97,7 @@
 
         {{-- Footer Bottom --}}
         <div class="py-6 border-t border-[#E5E5E5] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="text-xs text-[#737373]">© ۲۰۲۶ دو خان. تمامی حقوق محفوظ است.</p>
+            <p class="text-xs text-[#737373]">© ۲۰۲۶ Smokify | اسموکیفای. تمامی حقوق محفوظ است.</p>
             <div class="flex items-center gap-4">
                 <a href="#" class="text-xs text-[#737373] hover:text-[#171717] transition-colors">حریم خصوصی</a>
                 <span class="text-[#E5E5E5]">|</span>

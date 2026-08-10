@@ -22,7 +22,7 @@ class ProductCategorySeeder extends Seeder
             ['name' => 'سیگار خارجی', 'slug' => 'imported-cigarettes'],
             ['name' => 'سیگار ایرانی', 'slug' => 'iranian-cigarettes'],
             ['name' => 'ویپ و پاد', 'slug' => 'vape-and-pod'],
-            ['name' => 'جویس و سالت نیکوتین', 'slug' => 'e-liquid-and-nicotine-salt'],
+            ['name' => 'جویس و سالت', 'slug' => 'e-liquid-and-nicotine-salt'],
             ['name' => 'زغال کبابی بسته‌ای', 'slug' => 'packaged-barbecue-charcoal'],
             ['name' => 'زغال قلیان', 'slug' => 'hookah-charcoal'],
             ['name' => 'تنباکوی قلیان', 'slug' => 'hookah-tobacco'],

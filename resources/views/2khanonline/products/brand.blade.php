@@ -1,6 +1,8 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'محصولات ' . $brand->name . ' | دو خان')
+@section('title', 'خرید محصولات ' . $brand->name . ' در شیراز | Smokify')
+@section('seo_title', 'خرید محصولات ' . $brand->name . ' در شیراز | اسموکیفای')
+@section('seo_description', 'مشاهده و خرید محصولات برند ' . $brand->name . ' در شیراز از فروشگاه Smokify | اسموکیفای با ارسال سریع.')
 
 @section('content')
     <section class="pt-8 pb-20">

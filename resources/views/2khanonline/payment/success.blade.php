@@ -1,6 +1,7 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'پرداخت موفق | دو خان')
+@section('title', 'پرداخت موفق | Smokify | اسموکیفای')
+@section('seo_robots', 'noindex,nofollow,noarchive')
 
 @section('content')
     <section class="pt-6 lg:pt-8 pb-16 lg:pb-20">

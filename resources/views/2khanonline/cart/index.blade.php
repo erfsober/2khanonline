@@ -1,6 +1,7 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'سبد خرید | دو خان')
+@section('title', 'سبد خرید | Smokify | اسموکیفای')
+@section('seo_robots', 'noindex,nofollow,noarchive')
 
 @section('content')
     <section class="pt-6 lg:pt-8 pb-16 lg:pb-20">
@@ -110,7 +111,7 @@
                     required
                     minlength="10"
                     maxlength="2000"
-                    placeholder="مثال: تهران، خیابان ...، پلاک ...، واحد ..."
+                                    placeholder="مثال: شیراز، خیابان ...، پلاک ...، واحد ..."
                     class="w-full rounded-2xl border border-[#E5E5E5] bg-[#FAFAF9] px-4 py-3 text-sm text-[#171717] leading-7 placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#B88A2A] focus:ring-2 focus:ring-[#B88A2A]/15 resize-y"
                     data-checkout-address
                 ></textarea>

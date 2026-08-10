@@ -1,6 +1,8 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'دو خان | فروشگاه آنلاین')
+@section('title', 'Smokify | اسموکیفای | فروش سیگار آنلاین شیراز')
+@section('seo_title', 'فروش سیگار آنلاین شیراز | Smokify | اسموکیفای')
+@section('seo_description', 'فروش اینترنتی سیگار و خرید سیگار آنلاین در شیراز؛ سیگار خارجی و ایرانی، ویپ و پاد، جویس و سالت و زغال با ارسال سیگار در شیراز از Smokify.')
 
 @section('content')
 
@@ -20,7 +22,7 @@
                     <div class="text-right max-w-lg">
                         <span class="inline-block text-xs font-medium text-orange-400 bg-[#B88A2A]/10 px-3 py-1 rounded-full mb-5">کیفیت بی‌نظیر</span>
                         <h1 class="text-2xl lg:text-[38px] font-bold leading-tight mb-3 text-[#171717]">بهترین محصولات دخانیات</h1>
-                        <p class="text-[#737373] text-sm leading-6 mb-6">مجموعه‌ای از محصولات باکیفیت و معتبر، با طراحی ساده و انتخابی مطمئن.</p>
+                         <p class="text-[#737373] text-sm leading-6 mb-6">فروش اینترنتی سیگار، ویپ و پاد، جویس و سالت و زغال در شیراز با ثبت سفارش آنلاین و ارسال سریع داخل شهر.</p>
                         <form class="flex w-full max-w-md items-center overflow-hidden rounded-lg border border-[#E5E5E5] bg-white shadow-sm" data-home-search-form>
                             <label for="home-search" class="sr-only">جستجوی محصول</label>
                             <input
@@ -45,7 +47,7 @@
 
     {{-- ==================== CATEGORIES ==================== --}}
     <section class="max-w-[1260px] mx-auto px-6 lg:px-8 pb-16">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($categories as $category)
                 <a href="{{ route('categories.show', ['category' => $category->slug]) }}" class="bg-white border border-[#E5E5E5] rounded-2xl p-5 flex items-center gap-4 hover:border-[#d4d4d4] transition-colors group">
                     <div class="w-12 h-12 rounded-xl bg-[#FAFAF9] flex items-center justify-center text-[#737373] group-hover:text-[#171717] transition-colors overflow-hidden">
@@ -70,7 +72,7 @@
     <section class="max-w-[1260px] mx-auto px-6 lg:px-8 pb-16">
         {{-- Section Header --}}
         <div class="flex items-center justify-between mb-8">
-            <h2 class="text-xl lg:text-2xl font-bold">محصولات محبوب</h2>
+            <h2 class="text-xl lg:text-2xl font-bold">محصولات پرفروش در شیراز</h2>
         </div>
 
         {{-- Product Grid --}}

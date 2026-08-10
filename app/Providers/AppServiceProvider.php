@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('2khanonline.layout.header', function ($view): void {
             $view->with('navigationCategories', ProductCategory::query()
+                ->whereIn('slug', config('store.primary_category_slugs', []))
                 ->orderBy('id')
                 ->get(['slug', 'name']));
         });
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('2khanonline.layout.footer', function ($view): void {
             $view->with([
                 'footerCategories' => ProductCategory::query()
+                    ->whereIn('slug', config('store.primary_category_slugs', []))
                     ->orderBy('id')
                     ->get(['slug', 'name']),
                 'footerBrands' => ProductBrand::query()

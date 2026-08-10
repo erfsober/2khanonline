@@ -1,6 +1,8 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'درباره ما | دو خان')
+@section('title', 'درباره ما | Smokify | اسموکیفای')
+@section('seo_title', 'درباره Smokify | اسموکیفای در شیراز')
+@section('seo_description', 'درباره فروشگاه Smokify | اسموکیفای در شیراز و فعالیت ما در فروش اینترنتی سیگار، ویپ، جویس و سالت و زغال.')
 
 @section('content')
 
@@ -9,20 +11,23 @@
             <div class="bg-white border border-[#E5E5E5] rounded-[20px] overflow-hidden">
                 <div class="grid {{ $imageUrl ? 'lg:grid-cols-2' : 'lg:grid-cols-1' }} gap-0 items-stretch">
                     <div class="p-8 lg:p-12 flex flex-col justify-center">
-                        <span class="inline-flex w-fit text-xs font-medium text-[#B88A2A] bg-[#B88A2A]/10 px-3 py-1 rounded-full mb-5">درباره دو خان</span>
+                        <span class="inline-flex w-fit text-xs font-medium text-[#B88A2A] bg-[#B88A2A]/10 px-3 py-1 rounded-full mb-5">درباره اسموکیفای</span>
 
                         @if (filled($aboutUs->title ?? null))
                             <h1 class="text-2xl lg:text-[38px] font-bold leading-tight text-[#171717]">
                                 {{ $aboutUs->title }}
                             </h1>
                         @endif
+                        <p class="mt-5 text-sm leading-8 text-[#737373]">
+                            Smokify | اسموکیفای یک فروشگاه اینترنتی در شیراز برای فروش سیگار خارجی و ایرانی، ویپ و پاد، جویس و سالت، زغال کبابی بسته‌ای و زغال قلیان است.
+                        </p>
                     </div>
 
                     @if ($imageUrl)
                         <div class="relative min-h-[260px] lg:min-h-[420px] bg-[#FAFAF9]">
                             <img
                                 src="{{ $imageUrl }}"
-                                alt="{{ $aboutUs->title ?? 'درباره دو خان' }}"
+                                alt="{{ $aboutUs->title ?? 'درباره اسموکیفای' }}"
                                 class="absolute inset-0 w-full h-full object-cover"
                             >
                         </div>

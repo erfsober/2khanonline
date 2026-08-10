@@ -184,7 +184,7 @@ class ProductSeeder extends Seeder
                     'product_brand_id' => $brands[$brandSlug],
                     'name' => $name,
                     'slug' => $slug,
-                    'description' => sprintf('%s از برند %s، تهیه‌شده بر اساس کاتالوگ فروشگاه سیگارسنتر.', $name, $brandNames[$brands[$brandSlug]]),
+                    'description' => sprintf('%s از برند %s، با تضمین اصالت و ارسال سریع در شیراز از فروشگاه Smokify | اسموکیفای.', $name, $brandNames[$brands[$brandSlug]]),
                     'price' => $price,
                     'stock' => rand(15, 180),
                 ]);

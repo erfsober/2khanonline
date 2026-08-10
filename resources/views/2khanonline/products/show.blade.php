@@ -1,6 +1,9 @@
 @extends('2khanonline.layout.main')
 
-@section('title', ($product->name ?? $product->title ?? 'محصول') . ' | دو خان')
+@section('title', ($product->name ?? $product->title ?? 'محصول') . ' | Smokify | اسموکیفای')
+@section('og_type', 'product')
+@section('seo_title', ($product->name ?? $product->title ?? 'محصول') . ' | خرید در شیراز از Smokify')
+@section('seo_description', \Illuminate\Support\Str::limit(strip_tags((string) ($product->description ?? 'خرید آنلاین ' . ($product->name ?? $product->title ?? 'محصول') . ' در شیراز با ارسال سریع از فروشگاه Smokify.')), 155))
 
 @section('content')
     @php
@@ -9,6 +12,23 @@
         $isAvailable = $stock > 0;
         $initialQuantity = $isAvailable ? 1 : 0;
         $initialTotal = $unitPrice * $initialQuantity;
+        $productSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $productName,
+            'description' => strip_tags($description),
+            'image' => $imageUrl ? [$imageUrl] : [],
+            'category' => $categoryName,
+            'brand' => $brandName ? ['@type' => 'Brand', 'name' => $brandName] : null,
+            'offers' => [
+                '@type' => 'Offer',
+                'url' => url()->current(),
+                'priceCurrency' => 'IRR',
+                'price' => $unitPrice * 10,
+                'availability' => $isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                'seller' => ['@type' => 'Organization', 'name' => config('store.brand')],
+            ],
+        ];
     @endphp
 
     <section class="pt-6 lg:pt-8 pb-16 lg:pb-20">
@@ -182,6 +202,12 @@
         </section>
     @endif
 @endsection
+
+@push('seo')
+    <script type="application/ld+json">
+        @json($productSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+    </script>
+@endpush
 
 @push('scripts')
     <script>
