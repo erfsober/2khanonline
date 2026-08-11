@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\khanonline;
 
+use App\Exceptions\OtpException;
 use App\Http\Controllers\Controller;
-use App\Models\Otp;
 use App\Models\User;
+use App\Services\Auth\OtpService;
 use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,12 +14,9 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    private const TEST_OTP_CODE = '11111';
-    private const OTP_EXPIRATION_MINUTES = 5;
-    private const OTP_RESEND_COOLDOWN_SECONDS = 120;
-
     public function __construct(
-        private readonly CartService $cartService
+        private readonly OtpService $otpService,
+        private readonly CartService $cartService,
     ) {}
 
     public function show(): View|RedirectResponse
@@ -34,25 +32,29 @@ class AuthController extends Controller
     {
         $phone = $this->validatePhone($request);
 
-        User::query()->updateOrCreate(
-            ['phone' => $phone],
-            []
-        );
+        User::query()->updateOrCreate(['phone' => $phone], []);
 
-        if ($remainingSeconds = $this->otpCooldownRemainingSeconds($phone)) {
+        try {
+            $this->otpService->send($phone, $request->ip());
+        } catch (OtpException $e) {
+            if ($e->getCode() === 429) {
+                return $this->otpStepResponse(
+                    phone: $phone,
+                    errors: ['resend' => $e->getMessage()],
+                    resendSeconds: $this->otpService->getCooldownSeconds($phone),
+                );
+            }
+
             return $this->otpStepResponse(
                 phone: $phone,
-                errors: ['resend' => $this->cooldownMessage($remainingSeconds)],
-                resendSeconds: $remainingSeconds,
+                errors: ['resend' => $e->getMessage()],
             );
         }
 
-        $this->createOtp($phone);
-
         return $this->otpStepResponse(
             phone: $phone,
-            status: 'کد تأیید برای شما ارسال شد. کد تست: ۱۱۱۱۱',
-            resendSeconds: self::OTP_RESEND_COOLDOWN_SECONDS,
+            status: 'کد تأیید برای شما ارسال شد.',
+            resendSeconds: $this->otpService->getCooldownSeconds($phone) ?: 120,
         );
     }
 
@@ -60,68 +62,54 @@ class AuthController extends Controller
     {
         $phone = $this->validatePhone($request);
 
-        User::query()->updateOrCreate(
-            ['phone' => $phone],
-            []
-        );
+        User::query()->updateOrCreate(['phone' => $phone], []);
 
-        if ($remainingSeconds = $this->otpCooldownRemainingSeconds($phone)) {
+        try {
+            $this->otpService->send($phone, $request->ip());
+        } catch (OtpException $e) {
+            if ($e->getCode() === 429) {
+                return $this->otpStepResponse(
+                    phone: $phone,
+                    errors: ['resend' => $e->getMessage()],
+                    resendSeconds: $this->otpService->getCooldownSeconds($phone),
+                );
+            }
+
             return $this->otpStepResponse(
                 phone: $phone,
-                errors: ['resend' => $this->cooldownMessage($remainingSeconds)],
-                resendSeconds: $remainingSeconds,
+                errors: ['resend' => $e->getMessage()],
             );
         }
 
-        $this->createOtp($phone);
-
         return $this->otpStepResponse(
             phone: $phone,
-            status: 'کد تأیید جدید ارسال شد. کد تست: ۱۱۱۱۱',
-            resendSeconds: self::OTP_RESEND_COOLDOWN_SECONDS,
+            status: 'کد تأیید جدید ارسال شد.',
+            resendSeconds: $this->otpService->getCooldownSeconds($phone) ?: 120,
         );
     }
 
     public function verifyOtp(Request $request): RedirectResponse
     {
         $phone = $this->validatePhone($request);
-
         $code = $this->normalizeDigits($request->input('otp', ''));
 
         if (! preg_match('/^[0-9]{5}$/', $code)) {
             return $this->otpStepResponse(
                 phone: $phone,
                 errors: ['otp' => $code === '' ? 'کد تأیید را وارد کنید.' : 'کد تأیید باید دقیقاً ۵ رقم باشد.'],
-                resendSeconds: $this->otpCooldownRemainingSeconds($phone),
+                resendSeconds: $this->otpService->getCooldownSeconds($phone),
             );
         }
 
-        $otp = Otp::query()
-            ->where('phone', $phone)
-            ->where('code', $code)
-            ->whereNull('verified_at')
-            ->latest()
-            ->first();
-
-        if (! $otp) {
+        try {
+            $this->otpService->verify($phone, $code);
+        } catch (OtpException $e) {
             return $this->otpStepResponse(
                 phone: $phone,
-                errors: ['otp' => 'کد تأیید واردشده نادرست است.'],
-                resendSeconds: $this->otpCooldownRemainingSeconds($phone),
+                errors: ['otp' => $e->getMessage()],
+                resendSeconds: $this->otpService->getCooldownSeconds($phone),
             );
         }
-
-        if ($otp->expires_at->isPast()) {
-            return $this->otpStepResponse(
-                phone: $phone,
-                errors: ['otp' => 'کد تأیید منقضی شده است. لطفاً دوباره کد دریافت کنید.'],
-                resendSeconds: $this->otpCooldownRemainingSeconds($phone),
-            );
-        }
-
-        $otp->update([
-            'verified_at' => now(),
-        ]);
 
         $user = User::query()->updateOrCreate(
             ['phone' => $phone],
@@ -161,35 +149,6 @@ class AuthController extends Controller
         return $validated['phone'];
     }
 
-    private function createOtp(string $phone): Otp
-    {
-        return Otp::query()->create([
-            'phone' => $phone,
-            'code' => $this->generateOtpCode(),
-            'expires_at' => now()->addMinutes(self::OTP_EXPIRATION_MINUTES),
-        ]);
-    }
-
-    private function otpCooldownRemainingSeconds(string $phone): int
-    {
-        $latestOtp = Otp::query()
-            ->where('phone', $phone)
-            ->latest()
-            ->first();
-
-        if (! $latestOtp) {
-            return 0;
-        }
-
-        $availableAt = $latestOtp->created_at->copy()->addSeconds(self::OTP_RESEND_COOLDOWN_SECONDS);
-
-        if ($availableAt->isPast()) {
-            return 0;
-        }
-
-        return (int) ceil(now()->diffInSeconds($availableAt));
-    }
-
     private function otpStepResponse(
         string $phone,
         ?string $status = null,
@@ -216,27 +175,6 @@ class AuthController extends Controller
         }
 
         return $response;
-    }
-
-    private function cooldownMessage(int $seconds): string
-    {
-        return 'برای ارسال مجدد کد، لطفاً '.$this->toPersianDigits((string) $seconds).' ثانیه دیگر صبر کنید.';
-    }
-
-    private function toPersianDigits(string $value): string
-    {
-        return strtr($value, [
-            '0' => '۰',
-            '1' => '۱',
-            '2' => '۲',
-            '3' => '۳',
-            '4' => '۴',
-            '5' => '۵',
-            '6' => '۶',
-            '7' => '۷',
-            '8' => '۸',
-            '9' => '۹',
-        ]);
     }
 
     private function normalizePhone(?string $phone): string
@@ -279,10 +217,5 @@ class AuthController extends Controller
             '٨' => '8',
             '٩' => '9',
         ]);
-    }
-
-    private function generateOtpCode(): string
-    {
-        return self::TEST_OTP_CODE;
     }
 }
