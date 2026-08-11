@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'mediana' => [
+        'api_key' => env('MEDIANA_API_KEY'),
+        'base_url' => env('MEDIANA_BASE_URL', 'https://api.mediana.ir'),
+        'pattern_code' => env('MEDIANA_PATTERN_CODE'),
+    ],
+
 ];
