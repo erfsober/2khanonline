@@ -12,7 +12,7 @@
 
         {{-- Logo (right side in RTL) --}}
         <a href="/" class="flex items-center gap-2 shrink-0">
-            <span class="text-xl font-bold tracking-tight">Smokify | اسموکیفای</span>
+            <span class="text-xl font-bold tracking-tight">اسموکیفای</span>
             <span class="w-2 h-2 rounded-full bg-[#B88A2A] mt-0.5"></span>
         </a>
 
