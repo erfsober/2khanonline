@@ -113,5 +113,18 @@
                 <div data-i18n="Orders">سفارشات</div>
             </a>
         </li>
+
+        {{-- Users Section --}}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">مدیریت کاربران</span>
+        </li>
+
+        <!-- Users -->
+        <li class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Users">کاربران</div>
+            </a>
+        </li>
     </ul>
 </aside>
