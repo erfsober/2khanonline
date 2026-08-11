@@ -88,6 +88,9 @@
                             @endforeach
                         </td>
                         <td>
+                            <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="bx bx-show me-1"></i> مشاهده
+                            </a>
                             <form action="{{ route('admin.orders.update-shipping-status', $order) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('PATCH')

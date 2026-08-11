@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\ProductBrandController;
 use App\Http\Controllers\admin\ProductCategoryController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -43,6 +44,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Orders
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/shipping-status', [OrderController::class, 'updateShippingStatus'])->name('orders.update-shipping-status');
+
+        // Users
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     });
 });
