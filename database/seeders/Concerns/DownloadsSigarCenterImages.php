@@ -59,10 +59,14 @@ trait DownloadsSigarCenterImages
         File::ensureDirectoryExists($directory);
 
         if (! File::exists($path)) {
-            $response = Http::retry(2, 250)->timeout(20)->get($url);
+            try {
+                $response = Http::retry(2, 250)->timeout(20)->get($url);
 
-            if ($response->successful()) {
-                File::put($path, $response->body());
+                if ($response->successful()) {
+                    File::put($path, $response->body());
+                }
+            } catch (\Throwable $e) {
+                // Silently fall back when the source site is unreachable.
             }
         }
 

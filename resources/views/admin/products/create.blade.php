@@ -120,7 +120,7 @@
 
                         <div class="row">
                             {{-- Price --}}
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                 <label for="price" class="form-label">قیمت (تومان)</label>
                                 <input
                                     class="form-control @error('price') is-invalid @enderror"
@@ -136,8 +136,27 @@
                                 @enderror
                             </div>
 
+                            {{-- Discount --}}
+                            <div class="mb-3 col-md-4">
+                                <label for="discount" class="form-label">درصد تخفیف (اختیاری)</label>
+                                <input
+                                    class="form-control @error('discount') is-invalid @enderror"
+                                    type="number"
+                                    id="discount"
+                                    name="discount"
+                                    value="{{ old('discount') }}"
+                                    min="0"
+                                    max="100"
+                                    placeholder="مثال: ۱۵"
+                                >
+                                @error('discount')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">عددی بین ۰ تا ۱۰۰ (فقط برای نمایش)</small>
+                            </div>
+
                             {{-- Stock --}}
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-4">
                                 <label for="stock" class="form-label">موجودی</label>
                                 <input
                                     class="form-control @error('stock') is-invalid @enderror"

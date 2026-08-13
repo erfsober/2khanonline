@@ -66,7 +66,14 @@
                             </div>
                             <div class="p-3">
                                 <h2 class="text-xs font-medium mb-2 truncate">{{ $product->name }}</h2>
-                                <p class="text-sm font-bold mb-3">{{ number_format($product->price) }} <span class="text-[10px] font-normal text-[#737373]">تومان</span></p>
+                                <div class="flex items-center gap-1.5">
+                                    <p class="text-sm font-bold">{{ number_format($product->price) }} <span class="text-[10px] font-normal text-[#737373]">تومان</span></p>
+                                    @if ($product->discount !== null)
+                                        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold text-white bg-red-500">
+                                            {{ $product->discount }}%
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </a>
                     @endforeach

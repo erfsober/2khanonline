@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AboutUsController;
+use App\Http\Controllers\admin\CardController;
 use App\Http\Controllers\admin\ContactUsController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LoginController;
@@ -45,10 +46,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Orders
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::post('orders/{order}/approve', [OrderController::class, 'approve'])->name('orders.approve');
+        Route::post('orders/{order}/reject', [OrderController::class, 'reject'])->name('orders.reject');
         Route::patch('orders/{order}/shipping-status', [OrderController::class, 'updateShippingStatus'])->name('orders.update-shipping-status');
 
         // Users
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+
+        // Financial - Card
+        Route::prefix('financial/card')->name('financial.card.')->group(function () {
+            Route::get('/', [CardController::class, 'edit'])->name('edit');
+            Route::put('/', [CardController::class, 'update'])->name('update');
+        });
     });
 });

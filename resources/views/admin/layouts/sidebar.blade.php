@@ -126,5 +126,18 @@
                 <div data-i18n="Users">کاربران</div>
             </a>
         </li>
+
+        {{-- Financial Section --}}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">مدیریت مالی</span>
+        </li>
+
+        <!-- Card -->
+        <li class="menu-item {{ request()->routeIs('admin.financial.card.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.financial.card.edit') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
+                <div data-i18n="Card">کارت بانکی</div>
+            </a>
+        </li>
     </ul>
 </aside>

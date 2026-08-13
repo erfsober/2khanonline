@@ -31,6 +31,9 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/checkout', fn () => redirect()->route('cart.index'))->name('checkout.continue');
     Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout.start');
+
+    Route::get('/payment/{order}', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('/payment/{order}/receipt', [PaymentController::class, 'uploadReceipt'])->name('payment.receipt');
 });
 
 // Cart routes

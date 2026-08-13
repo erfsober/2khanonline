@@ -20,6 +20,7 @@ class Product extends Model implements HasMedia
         'description',
         'price',
         'stock',
+        'discount',
     ];
 
     protected function casts(): array
@@ -27,6 +28,7 @@ class Product extends Model implements HasMedia
         return [
             'price' => 'integer',
             'stock' => 'integer',
+            'discount' => 'integer',
         ];
     }
 

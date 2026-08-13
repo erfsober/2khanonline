@@ -116,10 +116,17 @@
                         >
                             <div class="flex items-center justify-between gap-4">
                                 <span class="text-sm text-[#737373]">قیمت واحد</span>
-                                <strong class="text-xl lg:text-2xl font-bold text-[#171717]">
-                                    {{ number_format($unitPrice) }}
-                                    <span class="text-xs font-normal text-[#737373]">تومان</span>
-                                </strong>
+                                <div class="flex items-center gap-2">
+                                    @if ($product->discount !== null)
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold text-white bg-red-500">
+                                            {{ $product->discount }}%
+                                        </span>
+                                    @endif
+                                    <strong class="text-xl lg:text-2xl font-bold text-[#171717]">
+                                        {{ number_format($unitPrice) }}
+                                        <span class="text-xs font-normal text-[#737373]">تومان</span>
+                                    </strong>
+                                </div>
                             </div>
 
                             <div class="flex items-center justify-between gap-4 border-t border-[#E5E5E5] pt-4">

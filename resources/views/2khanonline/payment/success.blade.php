@@ -1,6 +1,6 @@
 @extends('2khanonline.layout.main')
 
-@section('title', 'پرداخت موفق | Smokify | اسموکیفای')
+@section('title', 'سفارش ثبت شد | Smokify | اسموکیفای')
 @section('seo_robots', 'noindex,nofollow,noarchive')
 
 @section('content')
@@ -13,29 +13,32 @@
                     </svg>
                 </div>
 
-                <h1 class="text-2xl font-bold mb-2">پرداخت با موفقیت انجام شد</h1>
-                <p class="text-sm text-[#737373] leading-7 mb-8">سفارش شما ثبت شد و پرداخت آن تأیید گردید.</p>
+                <h1 class="text-2xl font-bold mb-2">سفارش شما ثبت شد</h1>
+                <p class="text-sm text-[#737373] leading-7 mb-8">فیش پرداخت شما دریافت شد و پس از بررسی توسط مدیر، وضعیت سفارش شما بروزرسانی خواهد شد.</p>
 
                 <div class="rounded-2xl bg-[#FAFAF9] border border-[#E5E5E5] p-5 text-sm text-right space-y-3 mb-8">
                     <div class="flex items-center justify-between gap-4">
                         <span class="text-[#737373]">شماره سفارش</span>
-                        <strong>{{ $order->id }}</strong>
+                        <strong>#{{ $order->id }}</strong>
                     </div>
                     <div class="flex items-center justify-between gap-4">
-                        <span class="text-[#737373]">مبلغ پرداختی</span>
+                        <span class="text-[#737373]">مبلغ</span>
                         <strong>{{ number_format($order->amount) }} تومان</strong>
                     </div>
-                    @if ($order->reference_id)
-                        <div class="flex items-center justify-between gap-4">
-                            <span class="text-[#737373]">کد پیگیری</span>
-                            <strong dir="ltr">{{ $order->reference_id }}</strong>
-                        </div>
-                    @endif
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-[#737373]">وضعیت</span>
+                        <span class="badge bg-label-warning">در انتظار بررسی</span>
+                    </div>
                 </div>
 
-                <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-2xl bg-[#171717] px-6 py-3 text-sm font-semibold text-white hover:bg-[#2a2a2a] transition-colors">
-                    بازگشت به فروشگاه
-                </a>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="{{ route('orders.index') }}" class="inline-flex items-center justify-center rounded-2xl border border-[#E5E5E5] bg-white px-6 py-3 text-sm font-semibold text-[#171717] hover:bg-[#FAFAF9] transition-colors">
+                        مشاهده سفارش‌ها
+                    </a>
+                    <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-2xl bg-[#171717] px-6 py-3 text-sm font-semibold text-white hover:bg-[#2a2a2a] transition-colors">
+                        بازگشت به فروشگاه
+                    </a>
+                </div>
             </div>
         </div>
     </section>

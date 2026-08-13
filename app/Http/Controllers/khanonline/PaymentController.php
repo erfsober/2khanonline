@@ -3,52 +3,69 @@
 namespace App\Http\Controllers\khanonline;
 
 use App\Http\Controllers\Controller;
-use App\Services\CheckoutService;
+use App\Models\Card;
+use App\Models\Order;
+use App\Services\CartService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Shetabit\Multipay\Exceptions\InvalidPaymentException;
-use Shetabit\Multipay\Exceptions\PurchaseFailedException;
-use Throwable;
 
 class PaymentController extends Controller
 {
     public function __construct(
-        private readonly CheckoutService $checkoutService
+        private readonly CartService $cartService
     ) {}
 
-    public function callback(Request $request): View|RedirectResponse
+    public function show(Order $order): View|RedirectResponse
     {
-        $transactionId = (string) $request->input('trackId', '');
-
-        if ($transactionId === '') {
-            return redirect()
-                ->route('cart.index')
-                ->with('payment_error', 'شناسه پرداخت معتبر نیست.');
+        if ($order->status !== Order::STATUS_PENDING) {
+            return redirect()->route('orders.index');
         }
 
-        if (! in_array((string) $request->input('success'), ['1', '2'], true)) {
-            return redirect()
-                ->route('cart.index')
-                ->with('payment_error', 'پرداخت توسط کاربر لغو شد یا ناموفق بود.');
+        if (auth()->id() !== $order->user_id) {
+            abort(403);
         }
 
-        try {
-            $order = $this->checkoutService->verify($transactionId);
+        $card = Card::first();
 
-            return view('2khanonline.payment.success', [
-                'order' => $order,
-            ]);
-        } catch (InvalidPaymentException|PurchaseFailedException $exception) {
-            return redirect()
-                ->route('cart.index')
-                ->with('payment_error', $exception->getMessage() ?: 'پرداخت تأیید نشد.');
-        } catch (Throwable $exception) {
-            report($exception);
+        return view('2khanonline.payment.card-to-card', [
+            'order' => $order,
+            'card' => $card,
+        ]);
+    }
 
-            return redirect()
-                ->route('cart.index')
-                ->with('payment_error', 'خطا در تأیید پرداخت. لطفاً دوباره تلاش کنید.');
+    public function uploadReceipt(Request $request, Order $order): RedirectResponse
+    {
+        if ($order->status !== Order::STATUS_PENDING) {
+            return redirect()->route('orders.index');
         }
+
+        if (auth()->id() !== $order->user_id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'receipt' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'receipt.required' => 'لطفاً تصویر فیش پرداخت را آپلود کنید.',
+            'receipt.image' => 'فایل ارسالی باید تصویر باشد.',
+            'receipt.mimes' => 'فرمت تصویر باید jpg، jpeg، png یا webp باشد.',
+            'receipt.max' => 'حجم تصویر نباید بیشتر از ۵ مگابایت باشد.',
+        ]);
+
+        $order->clearMediaCollection('receipt');
+        $order->addMediaFromRequest('receipt')->toMediaCollection('receipt');
+
+        $order->update([
+            'payment_status' => Order::PAYMENT_PENDING,
+        ]);
+
+        return redirect()->route('orders.index')
+            ->with('success', 'فیش پرداخت با موفقیت ارسال شد. پس از بررسی توسط مدیر، وضعیت سفارش شما بروزرسانی خواهد شد.');
+    }
+
+    public function callback(): RedirectResponse
+    {
+        return redirect()->route('cart.index');
     }
 }

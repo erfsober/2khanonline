@@ -179,6 +179,21 @@ class ProductSeeder extends Seeder
 
         foreach ($catalog as $categorySlug => $products) {
             foreach ($products as [$name, $slug, $brandSlug, $price, $image]) {
+                $discount = in_array($slug, [
+                    'marlboro-filter-plus-extra',
+                    'marlboro-red-100s',
+                    'bahman-red',
+                    'vaporesso-xros-3',
+                    'nasty-juice-fat-boy-60ml',
+                    'coconut-hookah-charcoal-cubes',
+                    'two-apple-hookah-tobacco',
+                    'cohiba-mini-cigarillos',
+                    'iqos-iluma-one',
+                    'khalil-mamoon-egyptian-hookah',
+                    'zippo-classic-lighter',
+                    'xros-replacement-pod',
+                ]) ? rand(5, 25) : null;
+
                 $product = Product::create([
                     'product_category_id' => $categories[$categorySlug],
                     'product_brand_id' => $brands[$brandSlug],
@@ -187,6 +202,7 @@ class ProductSeeder extends Seeder
                     'description' => sprintf('%s از برند %s، با تضمین اصالت و ارسال سریع در شیراز از فروشگاه Smokify | اسموکیفای.', $name, $brandNames[$brands[$brandSlug]]),
                     'price' => $price,
                     'stock' => rand(15, 180),
+                    'discount' => $discount,
                 ]);
 
                 $this->addSigarCenterImage($product, $this->sigarCenterImageUrl($image), $slug);

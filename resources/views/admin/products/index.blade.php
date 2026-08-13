@@ -34,6 +34,7 @@
                     <th>دسته‌بندی</th>
                     <th>برند</th>
                     <th>قیمت</th>
+                    <th>تخفیف</th>
                     <th>موجودی</th>
                     <th>عملیات</th>
                 </tr>
@@ -55,6 +56,13 @@
                         <td><span class="badge bg-label-primary">{{ $product->category->name ?? '—' }}</span></td>
                         <td><span class="badge bg-label-info">{{ $product->brand->name ?? '—' }}</span></td>
                         <td>{{ number_format($product->price) }} تومان</td>
+                        <td>
+                            @if($product->discount !== null)
+                                <span class="badge bg-label-danger">{{ $product->discount }}%</span>
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
                         <td>
                             @if($product->stock > 0)
                                 <span class="badge bg-label-success">{{ $product->stock }}</span>
@@ -85,7 +93,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center">محصولی یافت نشد.</td>
+                        <td colspan="9" class="text-center">محصولی یافت نشد.</td>
                     </tr>
                 @endforelse
                 </tbody>

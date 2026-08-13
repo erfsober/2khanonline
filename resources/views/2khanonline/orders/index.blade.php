@@ -18,6 +18,12 @@
                 <p class="text-sm text-[#737373] mt-3">تاریخچه سفارش‌ها و وضعیت پرداخت آن‌ها را اینجا ببینید.</p>
             </div>
 
+            @if (session('success'))
+                <div class="rounded-2xl border border-emerald-100 bg-emerald-50 px-5 py-4 text-sm font-medium text-emerald-700 mb-6">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             @if ($orders->isEmpty())
                 <div class="bg-white border border-[#E5E5E5] rounded-[24px] p-10 lg:p-14 text-center shadow-[0_24px_70px_rgba(23,23,23,0.05)]">
                     <div class="w-16 h-16 mx-auto rounded-3xl bg-[#FAFAF9] border border-[#E5E5E5] flex items-center justify-center text-[#B88A2A] mb-5">
@@ -35,14 +41,14 @@
                 <div class="space-y-4">
                     @foreach ($orders as $order)
                         @php
-                            $statusLabel = match ($order->status) {
-                                'paid' => 'پرداخت شده',
-                                'failed' => 'ناموفق',
-                                default => 'در انتظار پرداخت',
+                            $paymentLabel = match ($order->payment_status) {
+                                'approved' => 'تأیید شده',
+                                'rejected' => 'رد شده',
+                                default => 'در حال بررسی',
                             };
-                            $statusClasses = match ($order->status) {
-                                'paid' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
-                                'failed' => 'bg-red-50 text-red-600 border-red-100',
+                            $paymentClasses = match ($order->payment_status) {
+                                'approved' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
+                                'rejected' => 'bg-red-50 text-red-600 border-red-100',
                                 default => 'bg-amber-50 text-amber-700 border-amber-100',
                             };
                         @endphp
@@ -51,8 +57,8 @@
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 pb-5 border-b border-[#F5F5F5]">
                                 <div class="flex flex-wrap items-center gap-3">
                                     <h2 class="text-base font-bold text-[#171717]">سفارش #{{ $order->id }}</h2>
-                                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold {{ $statusClasses }}">
-                                        {{ $statusLabel }}
+                                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold {{ $paymentClasses }}">
+                                        {{ $paymentLabel }}
                                     </span>
                                 </div>
                                 <div class="text-xs text-[#737373]">
@@ -60,8 +66,45 @@
                                 </div>
                             </div>
 
-                            @if($order->status === 'paid')
-                                {{-- Shipping Status --}}
+                            {{-- Payment Status --}}
+                            <div class="mb-5 p-4 rounded-2xl border border-[#E5E5E5] bg-[#FAFAF9]">
+                                <div class="flex items-center gap-2 mb-3">
+                                    @if($order->payment_status === 'approved')
+                                        <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                            </svg>
+                                        </span>
+                                    @elseif($order->payment_status === 'rejected')
+                                        <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-red-50 border border-red-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                        </span>
+                                    @else
+                                        <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-amber-50 border border-amber-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                        </span>
+                                    @endif
+                                    <span class="text-xs font-medium text-[#737373]">وضعیت سفارش</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-[#E5E5E5] overflow-hidden">
+                                    <div class="h-full rounded-full transition-all duration-500 {{ $order->payment_status === 'approved' ? 'w-full bg-emerald-500' : ($order->payment_status === 'rejected' ? 'w-full bg-red-500' : 'w-1/3 bg-amber-400') }}"></div>
+                                </div>
+                                <div class="flex items-center justify-between mt-2.5">
+                                    <span class="text-xs font-medium {{ $order->payment_status === 'pending' ? 'text-amber-600' : 'text-[#A3A3A3]' }}">بررسی فیش</span>
+                                    @if($order->payment_status === 'rejected')
+                                        <span class="text-xs font-medium text-red-600">رد شده</span>
+                                    @else
+                                        <span class="text-xs font-medium {{ $order->payment_status === 'approved' ? 'text-emerald-600' : 'text-[#A3A3A3]' }}">تأیید شده</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{-- Shipping Status — only if payment approved --}}
+                            @if($order->payment_status === 'approved')
                                 <div class="mb-5 p-4 rounded-2xl border border-[#E5E5E5] bg-[#FAFAF9]">
                                     <div class="flex items-center gap-2 mb-3">
                                         @if($order->shipping_status === 'sent')
@@ -112,12 +155,6 @@
                                     <span class="text-[#737373]">مبلغ کل</span>
                                     <strong class="text-base text-[#171717]">{{ number_format($order->amount) }} تومان</strong>
                                 </div>
-                                @if ($order->reference_id)
-                                    <div class="flex items-center justify-between gap-4">
-                                        <span class="text-[#737373]">کد پیگیری</span>
-                                        <strong dir="ltr">{{ $order->reference_id }}</strong>
-                                    </div>
-                                @endif
                             </div>
                         </article>
                     @endforeach

@@ -37,12 +37,12 @@ class CartController extends Controller
         ]);
 
         try {
-            $gatewayUrl = $this->checkoutService->start(
+            $order = $this->checkoutService->start(
                 $request->user(),
                 trim($validated['address'])
             );
 
-            return redirect()->away($gatewayUrl);
+            return redirect()->route('payment.show', $order);
         } catch (ValidationException $exception) {
             return redirect()
                 ->route('cart.index')

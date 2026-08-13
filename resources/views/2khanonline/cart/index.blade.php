@@ -412,7 +412,7 @@
                     var submitButton = checkoutForm.querySelector('[data-address-submit]');
                     if (submitButton) {
                         submitButton.disabled = true;
-                        submitButton.textContent = 'در حال انتقال به درگاه...';
+                        submitButton.textContent = 'در حال ثبت سفارش...';
                     }
                 });
             }

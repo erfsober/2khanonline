@@ -36,6 +36,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
+            'discount' => 'nullable|integer|min:0|max:100',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp',
         ], [
             'product_category_id.required' => 'انتخاب دسته‌بندی الزامی است',
@@ -52,6 +53,9 @@ class ProductController extends Controller
             'stock.required' => 'موجودی الزامی است',
             'stock.integer' => 'موجودی باید عدد باشد',
             'stock.min' => 'موجودی نمی‌تواند منفی باشد',
+            'discount.integer' => 'درصد تخفیف باید عدد باشد',
+            'discount.min' => 'درصد تخفیف نمی‌تواند منفی باشد',
+            'discount.max' => 'درصد تخفیف نمی‌تواند بیشتر از ۱۰۰ باشد',
             'image.image' => 'فایل ارسالی باید تصویر باشد',
             'image.mimes' => 'تصویر ارسالی باید از فرمت های jpg، jpeg، png، gif یا webp باشد',
         ]);
@@ -64,6 +68,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'discount' => $request->filled('discount') ? $request->discount : null,
         ]);
 
         if ($request->hasFile('image')) {
@@ -92,6 +97,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
+            'discount' => 'nullable|integer|min:0|max:100',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp',
             'remove_image' => 'nullable|boolean',
         ], [
@@ -109,6 +115,9 @@ class ProductController extends Controller
             'stock.required' => 'موجودی الزامی است',
             'stock.integer' => 'موجودی باید عدد باشد',
             'stock.min' => 'موجودی نمی‌تواند منفی باشد',
+            'discount.integer' => 'درصد تخفیف باید عدد باشد',
+            'discount.min' => 'درصد تخفیف نمی‌تواند منفی باشد',
+            'discount.max' => 'درصد تخفیف نمی‌تواند بیشتر از ۱۰۰ باشد',
             'image.image' => 'فایل ارسالی باید تصویر باشد',
             'image.mimes' => 'تصویر ارسالی باید از فرمت های jpg، jpeg، png، gif یا webp باشد',
         ]);
@@ -121,6 +130,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
+            'discount' => $request->filled('discount') ? $request->discount : null,
         ]);
 
         if ($request->boolean('remove_image')) {

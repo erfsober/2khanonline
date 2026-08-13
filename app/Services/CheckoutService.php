@@ -19,7 +19,7 @@ class CheckoutService
         private readonly CartService $cartService
     ) {}
 
-    public function start(User $user, string $address): string
+    public function start(User $user, string $address): Order
     {
         $cart = $this->cartService->getCart();
         $cart->loadMissing('items.product');
@@ -34,32 +34,7 @@ class CheckoutService
 
         $order = $this->createPendingOrder($user, $cart, $address);
 
-        try {
-            $invoice = (new Invoice)
-                ->amount($order->amount)
-                ->detail([
-                    'description' => 'پرداخت سفارش شماره '.$order->id,
-                    'orderId' => $order->id,
-                    'mobile' => $user->phone,
-                ]);
-
-            $payment = Payment::via('zibal')
-                ->callbackUrl(route('payment.callback'))
-                ->purchase($invoice, function ($driver, $transactionId) use ($order): void {
-                    $order->update([
-                        'transaction_id' => (string) $transactionId,
-                        'gateway' => 'zibal',
-                    ]);
-                });
-
-            return $payment->pay()->getAction();
-        } catch (PurchaseFailedException $exception) {
-            $order->update(['status' => Order::STATUS_FAILED]);
-
-            throw ValidationException::withMessages([
-                'payment' => $exception->getMessage() ?: 'امکان اتصال به درگاه پرداخت وجود ندارد.',
-            ]);
-        }
+        return $order;
     }
 
     public function verify(string $transactionId): Order
@@ -141,7 +116,8 @@ class CheckoutService
                 'amount' => $cart->total(),
                 'address' => $address,
                 'status' => Order::STATUS_PENDING,
-                'gateway' => 'zibal',
+                'payment_status' => Order::PAYMENT_PENDING,
+                'gateway' => 'card_to_card',
             ]);
 
             foreach ($cart->items as $item) {

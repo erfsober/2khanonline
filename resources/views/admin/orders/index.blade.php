@@ -23,15 +23,22 @@
 
         {{-- Filters --}}
         <form method="GET" action="{{ route('admin.orders.index') }}" class="row g-3 mx-3 mb-3">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <input type="text" name="search" class="form-control" placeholder="جستجو با شماره تلفن یا نام محصول"
                        value="{{ request('search') }}">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <select name="payment_status" class="form-select">
+                    <option value="">همه وضعیت‌ها</option>
+                    <option value="pending" {{ request('payment_status') === 'pending' ? 'selected' : '' }}>در انتظار بررسی</option>
+                    <option value="approved" {{ request('payment_status') === 'approved' ? 'selected' : '' }}>تأیید شده</option>
+                    <option value="rejected" {{ request('payment_status') === 'rejected' ? 'selected' : '' }}>رد شده</option>
+                </select>
+            </div>
+            <div class="col-md-2">
                 <select name="sort" class="form-select">
                     <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>جدیدترین</option>
                     <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>قدیمی‌ترین</option>
-                    <option value="shipping_status" {{ request('sort') === 'shipping_status' ? 'selected' : '' }}>وضعیت ارسال</option>
                 </select>
             </div>
             <div class="col-md-5">
@@ -48,12 +55,12 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>شناسه سفارش</th>
+                    <th>شناسه</th>
                     <th>شماره مشتری</th>
                     <th>مبلغ کل</th>
-                    <th>وضعیت سفارش</th>
-                    <th>وضعیت ارسال</th>
-                    <th>تاریخ سفارش</th>
+                    <th>وضعیت پرداخت</th>
+                    <th>فیش</th>
+                    <th>تاریخ</th>
                     <th>محصولات</th>
                     <th>عملیات</th>
                 </tr>
@@ -66,19 +73,23 @@
                         <td>{{ $order->user->phone ?? '—' }}</td>
                         <td>{{ number_format($order->amount) }} تومان</td>
                         <td>
-                            @if($order->status === 'paid')
-                                <span class="badge bg-label-success">پرداخت شده</span>
-                            @elseif($order->status === 'pending')
-                                <span class="badge bg-label-warning">در انتظار پرداخت</span>
+                            @if($order->payment_status === 'approved')
+                                <span class="badge bg-label-success">تأیید شده</span>
+                            @elseif($order->payment_status === 'rejected')
+                                <span class="badge bg-label-danger">رد شده</span>
+                            @elseif($order->receipt_url)
+                                <span class="badge bg-label-warning">در انتظار بررسی</span>
                             @else
-                                <span class="badge bg-label-danger">ناموفق</span>
+                                <span class="badge bg-label-secondary">بدون فیش</span>
                             @endif
                         </td>
                         <td>
-                            @if($order->shipping_status === 'sent')
-                                <span class="badge bg-label-success">ارسال شده</span>
+                            @if($order->receipt_url)
+                                <a href="{{ $order->receipt_url }}" target="_blank" title="مشاهده فیش">
+                                    <img src="{{ $order->receipt_thumb_url ?? $order->receipt_url }}" alt="فیش" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
+                                </a>
                             @else
-                                <span class="badge bg-label-info">در حال بسته‌بندی</span>
+                                <span class="text-muted">—</span>
                             @endif
                         </td>
                         <td>{{ verta(optional($order->created_at)->format('Y/m/d')) }}</td>
@@ -91,20 +102,28 @@
                             <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bx bx-show me-1"></i> مشاهده
                             </a>
-                            <form action="{{ route('admin.orders.update-shipping-status', $order) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="shipping_status" value="{{ $order->shipping_status === 'packing' ? 'sent' : 'packing' }}">
-                                @if($order->shipping_status === 'packing')
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="bx bx-package me-1"></i> تغییر به ارسال شده
-                                    </button>
-                                @else
-                                    <button type="submit" class="btn btn-sm btn-warning">
-                                        <i class="bx bx-revision me-1"></i> تغییر به بسته‌بندی
-                                    </button>
+
+                            @if($order->receipt_url)
+                                @if($order->payment_status !== 'approved')
+                                    <form action="{{ route('admin.orders.approve', $order) }}" method="POST" class="d-inline"
+                                          onsubmit="return confirm('آیا از تأیید فیش پرداخت این سفارش اطمینان دارید؟')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success me-1">
+                                            <i class="bx bx-check me-1"></i> تأیید
+                                        </button>
+                                    </form>
                                 @endif
-                            </form>
+
+                                @if($order->payment_status !== 'rejected')
+                                    <form action="{{ route('admin.orders.reject', $order) }}" method="POST" class="d-inline"
+                                          onsubmit="return confirm('آیا از رد فیش پرداخت این سفارش اطمینان دارید؟')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="bx bx-x me-1"></i> رد
+                                        </button>
+                                    </form>
+                                @endif
+                            @endif
                         </td>
                     </tr>
                 @empty
